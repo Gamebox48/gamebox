@@ -29,6 +29,7 @@ def gagne(tour):
                 and plateau[1][j] == tour and plateau[2][j] == tour:
             print(f'{plateau[0]}\n{plateau[1]}\n{plateau[2]}')
             print(f"Le joueur {tour} à gagné")
+            text('Le joueur')
             return True
     if plateau[0][0] == tour and plateau[1][1] == tour and plateau[2][2] == tour or plateau[2][0] == tour \
             and plateau[1][1] == tour and plateau[0][2] == tour:
@@ -47,36 +48,59 @@ def peut_jouer(y,x):
         print("Cette case est déja prise")
         return False
 
-def morpion():
+def morpion(name):
+    global plateau, tour
     nombre=0
     fin = False
-    while recherche(plateau) == True and fin == False:
-        print(f'{plateau[0]}\n{plateau[1]}\n{plateau[2]}')
-        bon_placement=False
-        tour = nombre % 2 + 1
-        while bon_placement == False:
-            print(f'Au joueur {tour} de jouer.')
-            while mouse_button_pressed()!=0:
-                pass
-            y, x = ((mouseY() // taillecase), (mouseX() // taillecase))
-            bon_placement = peut_jouer(int(y),int(x))
-        tour_morpion(y,x,tour)
-        fin = gagne(tour)
-        nombre+=1
+    print(name)
+    plateau[name[0]][name[1]]=tour
+    gagne(tour)
+    tour = tour%2 +1
+
+    # while recherche(plateau) == True and fin == False:
+    #     print(f'{plateau[0]}\n{plateau[1]}\n{plateau[2]}')
+    #     bon_placement=False
+    #     tour = nombre % 2 + 1
+    #     while bon_placement == False:
+    #         print(f'Au joueur {tour} de jouer.')
+    #         while mouse_button_pressed()!=0:
+    #             pass
+    #         y, x = ((mouseY() // taillecase), (mouseX() // taillecase))
+    #         bon_placement = peut_jouer(int(y),int(x))
+    #     tour_morpion(y,x,tour)
+    #     fin = gagne(tour)
+    #     nombre+=1
 
 taillecase=100
+
+tour=1
 
 def setup():
     createCanvas(taillecase*3,taillecase*4)
     background("grey")
 
 def compute():
-    morpion()
+    pass
 
 def draw():
+    global tour
     for i in range(3):
         for j in range(3):
-            rect(taillecase*i,taillecase*j,taillecase,taillecase)
+            if tour == 1:
+                couleur = "red"
+            else:
+                couleur = "blue"
+            if plateau[i][j] =="":
+                rect(taillecase*i,taillecase*j,taillecase,taillecase,fill_mouse_on=couleur,command = morpion, name = (i,j))
+            elif plateau[i][j] == 1:
+                rect(taillecase * i, taillecase * j, taillecase, taillecase,fill = "white")
+                circle(10+taillecase * i, 10+taillecase * j, taillecase - 20, no_fill=True, stroke="red", stroke_weight=5)
+            else:
+                rect(taillecase * i, taillecase * j, taillecase, taillecase,fill = "white")
+                strokeWeight(5)
+                line(taillecase*i+10,taillecase*j+10,taillecase*(i+1)-10,taillecase*(j+1)-10, stroke="blue")
+                line(taillecase * (i+1)-10, taillecase * j+10, taillecase * i+10, taillecase * (j + 1)-10, stroke="blue")
+                strokeWeight(1)
 
 
 run(globals())
