@@ -1,5 +1,8 @@
 from likeprocessing.processing import *
 
+ihm = IhmScreen()
+
+
 plateau = [["", "", ""], ["", "", ""], ["", "", ""]]
 
 
@@ -23,7 +26,7 @@ def tour_morpion(y, x, tour):
 
 
 def gagne(tour):
-    global plateau, tour
+    global plateau, gagnant
     for j in range(len(plateau)):
         if plateau[j][0] == tour and plateau[j][1] == tour and plateau[j][2] == tour or plateau[0][j] == tour \
                 and plateau[1][j] == tour and plateau[2][j] == tour:
@@ -35,6 +38,7 @@ def gagne(tour):
             and plateau[1][1] == tour and plateau[0][2] == tour:
         print(f'{plateau[0]}\n{plateau[1]}\n{plateau[2]}')
         print(f"Le joueur {tour} à gagné")
+        gagnant=tour
         return True
     return False
 
@@ -47,6 +51,13 @@ def peut_jouer(y,x):
     else:
         print("Cette case est déja prise")
         return False
+
+def init_jeu():
+    global plateau, fini, gagnant
+    plateau = [["", "", ""], ["", "", ""], ["", "", ""]]
+    ihm.objet_by_name('bouton_recommencer').visible=False
+    fini=0
+    gagnant=0
 
 def morpion(name):
     global plateau, tour
@@ -72,35 +83,54 @@ def morpion(name):
     #     nombre+=1
 
 taillecase=100
-
+ihm.addObjet(Bouton(ihm,(50,50,50,50),'Recommencer',command= init_jeu),'bouton_recommencer')
+ihm.objet_by_name('bouton_recommencer').visible=False
 tour=1
+gagnant=0
+fini=0
 
 def setup():
     createCanvas(taillecase*3,taillecase*4)
     background("grey")
 
 def compute():
-    pass
+    ihm.scan_events()
 
 def draw():
-    global tour
+    global tour, gagnant, fini
     for i in range(3):
         for j in range(3):
-            if tour == 1:
-                couleur = "red"
-            else:
-                couleur = "blue"
-            if plateau[i][j] =="":
-                rect(taillecase*i,taillecase*j,taillecase,taillecase,fill_mouse_on=couleur,command = morpion, name = (i,j))
-            elif plateau[i][j] == 1:
-                rect(taillecase * i, taillecase * j, taillecase, taillecase,fill = "white")
-                circle(10+taillecase * i, 10+taillecase * j, taillecase - 20, no_fill=True, stroke="red", stroke_weight=5)
-            else:
-                rect(taillecase * i, taillecase * j, taillecase, taillecase,fill = "white")
-                strokeWeight(5)
-                line(taillecase*i+10,taillecase*j+10,taillecase*(i+1)-10,taillecase*(j+1)-10, stroke="blue")
-                line(taillecase * (i+1)-10, taillecase * j+10, taillecase * i+10, taillecase * (j + 1)-10, stroke="blue")
-                strokeWeight(1)
+            if fini==0:
+                if tour == 1:
+                    couleur = "red"
+                    text('Au joueur 1 de jouer.',50, 350)
+                else:
+                    couleur = "blue"
+                    text('Au joueur 2 de jouer.', 50, 350)
+                if plateau[i][j] =="":
+                    rect(taillecase*i,taillecase*j,taillecase,taillecase,fill_mouse_on=couleur,command = morpion, name = (i,j))
+                elif plateau[i][j] == 1:
+                    rect(taillecase * i, taillecase * j, taillecase, taillecase,fill = "white")
+                    circle(10+taillecase * i, 10+taillecase * j, taillecase - 20, no_fill=True, stroke="red", stroke_weight=5)
+                else:
+                    rect(taillecase * i, taillecase * j, taillecase, taillecase,fill = "white")
+                    strokeWeight(5)
+                    line(taillecase*i+10,taillecase*j+10,taillecase*(i+1)-10,taillecase*(j+1)-10, stroke="blue")
+                    line(taillecase * (i+1)-10, taillecase * j+10, taillecase * i+10, taillecase * (j + 1)-10, stroke="blue")
+                    strokeWeight(1)
+                if gagnant==1:
+                    text('Le joueur 1 a gagné!', 50, 350)
+                    fini=1
+                elif gagnant==2:
+                    text('Le joueur 2 a gagné!', 50, 350)
+                    fini=1
+                if recherche(plateau) == False:
+                    text('Match nul', 50, 350)
+                    fini=1
+    if fini == 1:
+        ihm.objet_by_name('bouton_recommencer').visible=True
+    ihm.draw()
+
 
 
 run(globals())
