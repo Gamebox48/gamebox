@@ -23,13 +23,13 @@ def tour_morpion(y, x, tour):
 
 
 def gagne(tour):
-    global plateau
+    global plateau, tour
     for j in range(len(plateau)):
         if plateau[j][0] == tour and plateau[j][1] == tour and plateau[j][2] == tour or plateau[0][j] == tour \
                 and plateau[1][j] == tour and plateau[2][j] == tour:
             print(f'{plateau[0]}\n{plateau[1]}\n{plateau[2]}')
             print(f"Le joueur {tour} à gagné")
-            text('Le joueur')
+            gagnant=tour
             return True
     if plateau[0][0] == tour and plateau[1][1] == tour and plateau[2][2] == tour or plateau[2][0] == tour \
             and plateau[1][1] == tour and plateau[0][2] == tour:
