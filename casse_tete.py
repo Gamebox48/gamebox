@@ -96,5 +96,6 @@ def draw():
         for i in range(nb_case_hauteur):
             if plateau[j][i] != 0:
                 text(str(plateau[j][i]), taillecase * i, taillecase * j, taillecase, taillecase)
+    draw_
 
 run(globals())

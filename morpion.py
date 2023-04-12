@@ -110,14 +110,14 @@ def draw():
                 strokeWeight(1)
             if gagnant == 1:
                 text('Le joueur 1 a gagné!', 0, 300, 300, 100)
-                fini = 1
+                fini = 2
             elif gagnant == 2:
                 text('Le joueur 2 a gagné!', 0, 300, 300, 100)
-                fini = 1
-            if recherche(plateau) == False and fini==0:
+                fini = 2
+            if recherche(plateau) == False and fini!=2:
                 text('Match nul', 0, 300, 300, 100)
                 fini = 1
-    if fini == 1:
+    if fini != 0:
         ihm.objet_by_name('bouton_recommencer').visible = True
         ihm.objet_by_name('bouton_menu').visible = True
     ihm.draw()
