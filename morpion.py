@@ -1,5 +1,5 @@
 from likeprocessing.processing import *
-textAlign("center","center")
+textAlign("center")
 textFont("Comic sans ms",30)
 ihm = IhmScreen()
 
@@ -40,7 +40,6 @@ def init_jeu():
     ihm.objet_by_name('bouton_menu').visible = False
     fini = 0
     gagnant = 0
-
 
 def morpion(name):
     global plateau, tour
@@ -115,7 +114,7 @@ def draw():
             elif gagnant == 2:
                 text('Le joueur 2 a gagné!', 0, 300, 300, 100)
                 fini = 1
-            if recherche(plateau) == False:
+            if recherche(plateau) == False and fini==0:
                 text('Match nul', 0, 300, 300, 100)
                 fini = 1
     if fini == 1:
