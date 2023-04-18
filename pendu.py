@@ -42,6 +42,7 @@ class Pendu:
         if self.vies == 0:
             print(f"Dommage, vous avez perdu. Le mot était '{self.mot}'.")
 
+
 if __name__ == '__main__':
     jeu = Pendu()
     jeu.jouer()
