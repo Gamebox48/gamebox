@@ -89,7 +89,7 @@ class MqttGame(mqtt.Client):
         return self.subscribe_name+self.room_game
 
 # initialisation de mqtt
-joueur = "Pierre2"
+joueur = "Matteo"
 mqtt_broker = "mqtt.eclipseprojects.io"
 jeu = MqttGame(mqtt_broker, "mygamebox", joueur)
 
