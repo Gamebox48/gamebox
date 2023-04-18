@@ -11,7 +11,7 @@ def setup():
     background("grey")
     textAlign("center", "center")
     textFont("arial", 20)
-    init_jeu()
+    init_puzzle()
 
 def move(case:tuple):
     global plateau,nb_case_largeur,nb_case_hauteur, fini
@@ -73,11 +73,13 @@ def reprendre():
     ihm.objet_by_name('bouton_menu_pause').visible = False
     fini=0
 
-def init_jeu():
+def init_puzzle():
     global plateau, fini
     plateau = [[i * nb_case_largeur + j + 1 for j in range(nb_case_largeur)] for i in range(nb_case_hauteur)]
     plateau[-1][-1] = 0
+    melange()
     fini=0
+
     ihm.objet_by_name('bouton_pause').visible = True
     ihm.objet_by_name('bouton_reprendre').visible = False
     ihm.objet_by_name('bouton_recommencer_pause').visible = False
@@ -89,11 +91,11 @@ def init_jeu():
 ihm.addObjet(Bouton(ihm, (110, 310, 30, 30), '||', command=pause), 'bouton_pause')
 ihm.addObjet(Bouton(ihm, (110, 310, 30, 30), '||', command=reprendre), 'bouton_reprendre')
 ihm.objet_by_name('bouton_reprendre').visible = False
-ihm.addObjet(Bouton(ihm, (0,300,110 ,50), 'Recommencer', command=init_jeu), 'bouton_recommencer_pause')
+ihm.addObjet(Bouton(ihm, (0,300,110 ,50), 'Recommencer', command=init_puzzle), 'bouton_recommencer_pause')
 ihm.objet_by_name('bouton_recommencer_pause').visible = False
-ihm.addObjet(Bouton(ihm, (140, 300, 110, 50), 'Retour au menu', command=reprendre), 'bouton_menu_pause')
+ihm.addObjet(Bouton(ihm, (140, 300, 110, 50), 'Retour au menu', command=init_puzzle), 'bouton_menu_pause')
 ihm.objet_by_name('bouton_menu_pause').visible = False
-ihm.addObjet(Bouton(ihm, (0, 300, 125, 50), 'Recommencer', command=init_jeu), 'bouton_recommencer_fin')
+ihm.addObjet(Bouton(ihm, (0, 300, 125, 50), 'Recommencer', command=init_puzzle), 'bouton_recommencer_fin')
 ihm.objet_by_name('bouton_recommencer_fin').visible = False
 ihm.addObjet(Bouton(ihm, (125, 300, 125, 50), 'Retour au menu', command=reprendre), 'bouton_menu_fin')
 ihm.objet_by_name('bouton_menu_fin').visible = False

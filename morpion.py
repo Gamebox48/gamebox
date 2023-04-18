@@ -33,7 +33,7 @@ def gagne(tour):
     return False
 
 
-def init_jeu():
+def init_morpion():
     global plateau, fini, gagnant
     plateau = [["", "", ""], ["", "", ""], ["", "", ""]]
     ihm.objet_by_name('bouton_recommencer').visible = False
@@ -65,9 +65,9 @@ def morpion(name):
 
 
 taillecase = 100
-ihm.addObjet(Bouton(ihm, (0, 350, 150, 50), 'Recommencer', command=init_jeu), 'bouton_recommencer')
+ihm.addObjet(Bouton(ihm, (0, 350, 150, 50), 'Recommencer', command=init_morpion), 'bouton_recommencer')
 ihm.objet_by_name('bouton_recommencer').visible = False
-ihm.addObjet(Bouton(ihm, (150, 350, 150, 50), 'Retour au menu', command=init_jeu), 'bouton_menu', )
+ihm.addObjet(Bouton(ihm, (150, 350, 150, 50), 'Retour au menu', command=init_morpion), 'bouton_menu', )
 ihm.objet_by_name('bouton_menu').visible = False
 tour = 1
 gagnant = 0
