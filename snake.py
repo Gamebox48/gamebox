@@ -2,6 +2,7 @@
 from likeprocessing.processing import *
 from random import shuffle
 
+
 class Snake:
     x, y, width, height = (200, 150, 400, 400)
     head_x, head_y = 100, 100
@@ -11,7 +12,7 @@ class Snake:
     serpent = []
     perdu = False
     nourriture = []
-    textFont("arial",20)
+    textFont("arial", 20)
 
     @classmethod
     def init_nourriture(cls, n=10) -> list:
@@ -70,15 +71,17 @@ class Snake:
     @classmethod
     def draw(cls):
         translate(cls.x, cls.y)
-        rect(-5,0,cls.width,cls.height,stroke_weight=5)
+        rect(-5, 0, cls.width, cls.height, stroke_weight=5)
         for i in range(len(cls.nourriture)):
-            circle(cls.nourriture[i][0], cls.nourriture[i][1], 10, fill="green",ellipse_mode="center")
+            circle(cls.nourriture[i][0], cls.nourriture[i][1], 10, fill="green", ellipse_mode="center")
         for i in range(len(cls.serpent)):
-            rect(cls.serpent[i][0], cls.serpent[i][1], 10, 10, fill="red",rect_mode="center")
+            rect(cls.serpent[i][0], cls.serpent[i][1], 10, 10, fill="red", rect_mode="center")
         if cls.perdu:
-            text("Tu as perdu", 0, cls.height/2-25, 400, 50, font_size=50, align_h="center", no_fill=True, no_stroke=True)
-        text(str(len(cls.serpent)*10),10,-25,no_stroke=True,no_fill=True)
+            text("Tu as perdu", 0, cls.height / 2 - 25, 400, 50, font_size=50, align_h="center", no_fill=True,
+                 no_stroke=True)
+        text(str(len(cls.serpent) * 10), 10, -25, no_stroke=True, no_fill=True)
         # rect(0, 0, cls.width, cls.height, stroke_weight=10,no_fill=True)
+
 
 if __name__ == '__main__':
     def setup():
@@ -86,8 +89,10 @@ if __name__ == '__main__':
         background("grey")
         Snake.init_snake()
 
+
     def compute():
         Snake.compute()
+
 
     draw = Snake.draw
 
