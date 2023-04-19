@@ -3,7 +3,7 @@ from likeprocessing.processing import *
 taillecase = 50
 nb_case_hauteur = 5
 nb_case_largeur = 5
-textFont("Comic sans ms", 30)
+textFont("Comic sans ms", 20)
 ihm = IhmScreen()
 
 
@@ -11,7 +11,6 @@ def setup():
     createCanvas(taillecase * nb_case_largeur, taillecase * (nb_case_hauteur + 2))
     background("grey")
     textAlign("center", "center")
-    textFont("arial", 20)
     init_puzzle()
 
 
@@ -89,29 +88,19 @@ def init_puzzle():
     fini = 0
 
     ihm.objet_by_name('bouton_pause').visible = True
-    # ihm.objet_by_name('bouton_reprendre').visible = False
-    # ihm.objet_by_name('bouton_recommencer_pause').visible = False
-    # ihm.objet_by_name('bouton_menu_pause').visible = False
-    # ihm.objet_by_name('bouton_recommencer_fin').visible = False
-    # ihm.objet_by_name('bouton_menu_fin').visible = False
     ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', 'bouton_recommencer_fin',
                     'bouton_menu_fin'])
 
 
 ihm.addObjet(Bouton(ihm, (110, 310, 30, 30), '||', command=pause), 'bouton_pause')
 ihm.addObjet(Bouton(ihm, (110, 310, 30, 30), '||', command=reprendre, visible=False), 'bouton_reprendre')
-# ihm.objet_by_name('bouton_reprendre').visible = False
 ihm.addObjet(Bouton(ihm, (0, 300, 110, 50), 'Recommencer', command=init_puzzle, visible=False),
              'bouton_recommencer_pause')
-# ihm.objet_by_name('bouton_recommencer_pause').visible = False
 ihm.addObjet(Bouton(ihm, (140, 300, 110, 50), 'Retour au menu', command=init_puzzle, visible=False),
              'bouton_menu_pause')
-# ihm.objet_by_name('bouton_menu_pause').visible = False
 ihm.addObjet(Bouton(ihm, (0, 300, 125, 50), 'Recommencer', command=init_puzzle, visible=False),
              'bouton_recommencer_fin')
-# ihm.objet_by_name('bouton_recommencer_fin').visible = False
 ihm.addObjet(Bouton(ihm, (125, 300, 125, 50), 'Retour au menu', command=reprendre, visible=False), 'bouton_menu_fin')
-# ihm.objet_by_name('bouton_menu_fin').visible = False
 
 fini = 0
 
