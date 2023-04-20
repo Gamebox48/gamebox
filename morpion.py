@@ -49,20 +49,6 @@ def morpion(name):
         gagne(tour)
         tour = tour % 2 + 1
 
-    # while recherche(plateau) == True and fin == False:
-    #     print(f'{plateau[0]}\n{plateau[1]}\n{plateau[2]}')
-    #     bon_placement=False
-    #     tour = nombre % 2 + 1
-    #     while bon_placement == False:
-    #         print(f'Au joueur {tour} de jouer.')
-    #         while mouse_button_pressed()!=0:
-    #             pass
-    #         y, x = ((mouseY() // taillecase), (mouseX() // taillecase))
-    #         bon_placement = peut_jouer(int(y),int(x))
-    #     tour_morpion(y,x,tour)
-    #     fin = gagne(tour)
-    #     nombre+=1
-
 
 taillecase = 100
 ihm.addObjet(Bouton(ihm, (0, 350, 150, 50), 'Recommencer', command=init_morpion), 'bouton_recommencer')

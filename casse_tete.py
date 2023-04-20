@@ -86,7 +86,6 @@ def init_puzzle():
     plateau[-1][-1] = 0
     melange()
     fini = 0
-
     ihm.objet_by_name('bouton_pause').visible = True
     ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', 'bouton_recommencer_fin',
                     'bouton_menu_fin'])
