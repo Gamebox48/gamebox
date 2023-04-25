@@ -1,6 +1,7 @@
 from likeprocessing.processing import *
 from copy import deepcopy
-import random
+from time import sleep
+
 
 taillecase = 30
 textFont("Comic sans ms", 20)
@@ -60,7 +61,6 @@ def solveSudoku(grid: list[list], i: int = 0, j: int = 0):
             grid[i][j] = e
             if solveSudoku(grid, i, j):
                 return True
-        # Undo the current cell for backtracking
     grid[i][j] = 0
     return False
 
@@ -116,7 +116,7 @@ def print_sudoku(grid):
 
 
 def setup():
-    createCanvas(taillecase * 9, taillecase * (9 + 2))
+    createCanvas(taillecase * 9, taillecase * (9 + 4))
     background("grey")
     textAlign("center", "center")
 
@@ -164,12 +164,11 @@ def compare():
             if plateau_corige[i][j] != plateau[i][j]:
                 liste_faux.append([i, j])
     if liste_faux != []:
-        ihm.visibled(['bouton_corrige'])
-        ihm.unvisibleb(['bouton_pause', 'bouton_verifie'])
         fini = 3
         return False
     if fini != 3:
         ihm.unvisibleb(['bouton_pause', 'bouton_verifie'])
+        ihm.visibled(['bouton_recommencer_fin','bouton_menu_fin'])
         print("gagné")
         return True
 
@@ -179,23 +178,24 @@ def rempli():
     for i in range(9):
         for j in range(9):
             if plateau[i][j] == 0:
+                ihm.unvisibleb(['bouton_verifie','bouton_corrige'])
                 return False
     fini = 1
-    ihm.visibled(['bouton_verifie'])
+    ihm.visibled(['bouton_verifie','bouton_corrige'])
     return True
 
 
 def reprendre():
     global fini
     ihm.objet_by_name('bouton_pause').visible = True
-    ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause','bouton_corrige','bouton_valider'])
+    ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause',])
     fini = 1
 
 
 def pause():
     global fini
     ihm.objet_by_name('bouton_pause').visible = False
-    ihm.visibled(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause'])
+    ihm.visibled(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause','bouton_verifie'])
     fini = 2
 
 
@@ -251,11 +251,11 @@ ihm.addObjet(Bouton(ihm, (150, 270, 120, 60), 'Retour au menu', command=init_sud
              'bouton_menu_pause')
 ihm.addObjet(Bouton(ihm, (0, 270, 135, 60), 'Recommencer', command=init_sudoku, visible=False),
              'bouton_recommencer_fin')
-ihm.addObjet(Bouton(ihm, (135, 270, 140, 60), 'Retour au menu', command=reprendre, visible=False),
+ihm.addObjet(Bouton(ihm, (135, 270, 135, 60), 'Retour au menu', command=reprendre, visible=False),
              'bouton_menu_fin')
-ihm.addObjet(Bouton(ihm, (135, 270, 140, 60), 'Corriger', command=corrige, visible=False),
+ihm.addObjet(Bouton(ihm, (135, 330, 135, 60), 'Corriger', command=corrige, visible=False),
              'bouton_corrige')
-ihm.addObjet(Bouton(ihm, (135, 270, 140, 60), 'Verifier', command=compare, visible=False),
+ihm.addObjet(Bouton(ihm, (0, 330, 135, 60), 'Verifier', command=compare, visible=False),
              'bouton_verifie')
 ihm.addObjet(Bouton(ihm, (15, 270, 70, 50), 'Facile', command=commence_facile),
              'bouton_facile')
@@ -290,6 +290,8 @@ def draw():
                                 text(str(plateau[k[0]][k[1]]), taillecase * k[1], taillecase * k[0], taillecase,
                                      taillecase,
                                      font_color="red")
+                            sleep(5)
+                            reprendre()
                         text(str(plateau[j][i]), taillecase * i, taillecase * j, taillecase, taillecase,
                              font_color="blue")
                     else:
