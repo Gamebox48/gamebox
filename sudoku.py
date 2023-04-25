@@ -1,5 +1,6 @@
 from likeprocessing.processing import *
 from copy import deepcopy
+import random
 
 taillecase = 30
 textFont("Comic sans ms", 20)
@@ -13,10 +14,9 @@ plateau = deepcopy(hardest_sudoku)
 plateau_depart = deepcopy(hardest_sudoku)
 plateau_corige = deepcopy(hardest_sudoku)
 
-
-
 fini = 0
 liste_faux = []
+
 
 def solveSudoku(grid: list[list], i: int = 0, j: int = 0):
     i, j = findNextCellToFill(grid)
@@ -118,25 +118,24 @@ def place(case: tuple):
 
 def corrige():
     global plateau, plateau_corige
-    solveSudoku(plateau_corige)
-    plateau=deepcopy(plateau_corige)
-    ihm.visibled(['bouton_recommencer_fin','bouton_menu_fin'])
+    plateau = deepcopy(plateau_corige)
+    ihm.visibled(['bouton_recommencer_fin', 'bouton_menu_fin'])
     ihm.unvisibleb(['bouton_corrige'])
 
 
 def compare():
-    global liste_faux,fini
+    global liste_faux, fini
     liste_faux = []
     for i in range(9):
         for j in range(9):
             if plateau_corige[i][j] != plateau[i][j]:
-                liste_faux += [i, j]
-    if liste_faux!=[]:
+                liste_faux.append([i, j])
+    if liste_faux != []:
         ihm.visibled(['bouton_corrige'])
-        ihm.unvisibleb(['bouton_pause','bouton_verifie'])
-        fini=4
+        ihm.unvisibleb(['bouton_pause', 'bouton_verifie'])
+        fini = 3
         return False
-    if fini !=4:
+    if fini != 3:
         ihm.unvisibleb(['bouton_pause', 'bouton_verifie'])
         print("gagné")
         return True
@@ -152,27 +151,64 @@ def rempli():
     ihm.visibled(['bouton_verifie'])
     return True
 
+
 def reprendre():
     global fini
     ihm.objet_by_name('bouton_pause').visible = True
     ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause'])
-    fini = 0
+    fini = 1
+
 
 def pause():
     global fini
     ihm.objet_by_name('bouton_pause').visible = False
     ihm.visibled(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause'])
-    fini = 3
+    fini = 2
+
 
 def init_sudoku():
-    global plateau, plateau_corige, plateau_depart, fini
+    global fini
     fini = 0
-    ihm.objet_by_name('bouton_pause').visible = True
+    ihm.visibled(['bouton_facile','bouton_moyen','bouton_dificile'])
     ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', 'bouton_recommencer_fin',
-                    'bouton_menu_fin','bouton_corrige','bouton_verifie'])
-    plateau = deepcopy(hardest_sudoku)
-    plateau_depart = deepcopy(hardest_sudoku)
-    plateau_corige = deepcopy(hardest_sudoku)
+                    'bouton_menu_fin', 'bouton_corrige', 'bouton_verifie', 'bouton_pause'])
+
+
+def commence_facile():
+    global plateau, plateau_corige, plateau_depart, fini
+    fini = 1
+    ihm.objet_by_name('bouton_pause').visible = True
+    ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_dificile'])
+    x = randint(0, 2)
+    plateau = deepcopy(l_facile[x])
+    plateau_depart = deepcopy(l_facile[x])
+    plateau_corige = deepcopy(l_facile[x])
+    solveSudoku(plateau_corige)
+
+
+def commence_moyen():
+    global plateau, plateau_corige, plateau_depart, fini
+    fini = 1
+    ihm.objet_by_name('bouton_pause').visible = True
+    ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_dificile'])
+    x = randint(0, 2)
+    plateau = deepcopy(l_moyen[x])
+    plateau_depart = deepcopy(l_moyen[x])
+    plateau_corige = deepcopy(l_moyen[x])
+    solveSudoku(plateau_corige)
+
+
+def commence_dificile():
+    global plateau, plateau_corige, plateau_depart, fini
+    fini = 1
+    ihm.objet_by_name('bouton_pause').visible = True
+    ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_dificile'])
+    x = randint(0, 2)
+    plateau = deepcopy(l_dificile[x])
+    plateau_depart = deepcopy(l_dificile[x])
+    plateau_corige = deepcopy(l_dificile[x])
+    solveSudoku(plateau_corige)
+
 
 ihm.addObjet(Bouton(ihm, (120, 285, 30, 30), '||', command=pause), 'bouton_pause')
 ihm.addObjet(Bouton(ihm, (120, 285, 30, 30), '||', command=reprendre, visible=False), 'bouton_reprendre')
@@ -188,34 +224,52 @@ ihm.addObjet(Bouton(ihm, (135, 270, 140, 60), 'Corriger', command=corrige, visib
              'bouton_corrige')
 ihm.addObjet(Bouton(ihm, (135, 270, 140, 60), 'Verifier', command=compare, visible=False),
              'bouton_verifie')
-
+ihm.addObjet(Bouton(ihm, (15, 270, 70, 50), 'Facile', command=commence_facile),
+             'bouton_facile')
+ihm.addObjet(Bouton(ihm, (100, 270, 70, 50), 'Moyen', command=commence_moyen),
+             'bouton_moyen')
+ihm.addObjet(Bouton(ihm, (185, 270, 70, 50), 'Dificile', command=commence_dificile),
+             'bouton_dificile')
+ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', 'bouton_recommencer_fin',
+                'bouton_menu_fin', 'bouton_corrige', 'bouton_verifie'])
 
 
 def compute():
     if mouse_button_pressed() == 0:
         i, j = ((mouseY() // taillecase), (mouseX() // taillecase))
         if i <= 8 and j <= 8:
-            place((i, j))
+            if fini == 1:
+                place((i, j))
+            if fini == 3:
+                reprendre()
     ihm.scan_events()
 
 
 def draw():
-    if fini == 4:
-        for i in liste_faux:
-            text(str(plateau[i[0]][i[1]]),taillecase*i[0],taillecase*i[1],taillecase,taillecase, font_color="red")
-    for i in range(9):
-        for j in range(9):
-            strokeWeight(1)
-            if plateau[j][i] != 0:
-                if plateau_depart[j][i] == 0:
-                    text(str(plateau[j][i]), taillecase * i, taillecase * j, taillecase, taillecase, font_color="blue")
-                else: text(str(plateau[j][i]), taillecase * i, taillecase * j, taillecase, taillecase, fontcolor="black")
-            else:
-                text("", taillecase * i, taillecase * j, taillecase, taillecase)
-    for i in range(2):
-        strokeWeight(4)
-        line(90 * (i + 1), 0, 90 * (i + 1), 270)
-        line(0, 90 * (i + 1), 270, 90 * (i + 1))
+    if fini != 0:
+        for i in range(9):
+            for j in range(9):
+                strokeWeight(1)
+                if plateau[j][i] != 0:
+                    if plateau_depart[j][i] == 0:
+                        if fini == 4:
+                            for k in liste_faux:
+                                text(str(plateau[k[0]][k[1]]), taillecase * k[1], taillecase * k[0], taillecase,
+                                     taillecase,
+                                     font_color="red")
+                        text(str(plateau[j][i]), taillecase * i, taillecase * j, taillecase, taillecase,
+                             font_color="blue")
+                    else:
+                        text(str(plateau[j][i]), taillecase * i, taillecase * j, taillecase, taillecase,
+                             fontcolor="black")
+                else:
+                    text("", taillecase * i, taillecase * j, taillecase, taillecase)
+        for i in range(2):
+            strokeWeight(4)
+            line(90 * (i + 1), 0, 90 * (i + 1), 270)
+            line(0, 90 * (i + 1), 270, 90 * (i + 1))
+    else:
+        text('Choisissez la dificulté.',0,0,270,270)
     ihm.draw()
 
 
