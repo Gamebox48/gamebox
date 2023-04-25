@@ -18,7 +18,33 @@ facile_3=[[0,7,0,0,0,5,0,0,0],[1,0,0,0,3,0,5,0,8],[0,0,0,2,0,9,0,6,0],
           [9,1,0,5,0,0,4,2,0],[6,8,0,3,0,0,0,1,0],[2,5,4,0,9,0,0,0,3],
           [7,0,6,8,0,1,0,4,0],[3,4,5,0,0,6,0,7,1],[0,0,1,0,7,0,2,0,6]]
 
-moyen_1=[[]]
+moyen_1=[[0,0,9,0,0,1,6,7,0],[6,4,0,8,0,0,0,9,2],[0,0,0,9,0,0,3,0,0],
+         [0,0,0,4,0,7,5,0,6],[0,5,6,0,0,0,4,3,0],[4,0,1,6,0,0,0,0,0],
+         [5,6,7,0,0,0,9,8,1],[0,1,0,0,8,9,0,0,0],[0,9,0,0,0,0,0,0,0]]
+
+moyen_2=[[6,0,0,5,3,1,9,0,0],[0,0,0,0,0,0,0,0,7],[5,4,9,0,0,0,0,0,0],
+         [2,0,0,7,0,0,0,0,0],[0,0,7,0,9,0,0,3,2],[0,9,0,0,1,8,0,4,5],
+         [0,2,0,0,7,4,5,0,1],[4,0,0,9,0,0,3,0,0],[0,0,3,0,0,0,0,2,0]]
+
+moyen_3=[[0,0,0,3,2,4,7,8,5],[0,8,5,0,7,0,0,0,0],[0,0,0,0,5,0,0,0,0],
+         [8,0,0,0,6,2,9,5,0],[0,0,7,5,0,0,0,3,2],[5,0,0,0,0,0,0,0,1],
+         [6,0,3,0,0,0,2,0,4],[0,0,0,2,4,0,0,1,6],[2,0,0,7,0,6,0,0,0]]
+
+difficile_1=[[0,0,0,4,0,0,5,0,6],[0,0,0,0,0,0,4,3,0],[0,6,0,5,0,0,0,1,0],
+             [0,0,3,0,5,0,0,9,0],[4,0,7,0,0,0,8,0,0],[9,0,0,0,8,7,2,0,0],
+             [0,7,1,0,0,5,0,0,0],[0,0,0,0,0,6,0,0,0],[0,5,0,0,0,1,0,0,4]]
+
+difficile_2=[[0,4,0,2,0,0,0,8,0],[2,0,0,0,7,0,0,3,0],[1,0,7,0,0,0,0,0,0],
+             [0,2,0,0,0,6,3,0,0],[0,0,0,0,0,0,0,0,0],[0,5,0,4,0,0,0,9,0],
+             [0,3,0,9,0,0,5,0,0],[0,0,0,7,0,0,1,0,0],[0,1,5,0,4,0,6,0,0]]
+
+difficile_3=[[8,0,0,0,0,5,0,2,9],[2,0,6,0,0,1,3,0,4],[0,4,0,7,0,0,1,0,8],
+             [0,0,0,0,0,0,8,0,5],[9,0,5,0,0,0,0,0,0],[0,0,0,2,0,0,0,9,1],
+             [0,0,0,1,0,2,4,0,0],[0,0,4,0,3,0,9,0,0],[0,0,0,0,0,0,0,8,6]]
+
+l_faciles=[facile_1,facile_2,facile_3]
+l_moyens=[moyen_1,moyen_2,moyen_3]
+l_difficiles=[difficile_1,difficile_2,difficile_3]
 
 
 fini = 0
@@ -162,7 +188,7 @@ def rempli():
 def reprendre():
     global fini
     ihm.objet_by_name('bouton_pause').visible = True
-    ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause'])
+    ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause','bouton_corrige','bouton_valider'])
     fini = 1
 
 
@@ -187,9 +213,9 @@ def commence_facile():
     ihm.objet_by_name('bouton_pause').visible = True
     ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_difficile'])
     x = randint(0, 2)
-    plateau = deepcopy(l_facile[x])
-    plateau_depart = deepcopy(l_facile[x])
-    plateau_corige = deepcopy(l_facile[x])
+    plateau = deepcopy(l_faciles[x])
+    plateau_depart = deepcopy(l_faciles[x])
+    plateau_corige = deepcopy(l_faciles[x])
     solveSudoku(plateau_corige)
 
 
@@ -199,9 +225,9 @@ def commence_moyen():
     ihm.objet_by_name('bouton_pause').visible = True
     ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_difficile'])
     x = randint(0, 2)
-    plateau = deepcopy(l_moyen[x])
-    plateau_depart = deepcopy(l_moyen[x])
-    plateau_corige = deepcopy(l_moyen[x])
+    plateau = deepcopy(l_moyens[x])
+    plateau_depart = deepcopy(l_moyens[x])
+    plateau_corige = deepcopy(l_moyens[x])
     solveSudoku(plateau_corige)
 
 
@@ -211,9 +237,9 @@ def commence_difficile():
     ihm.objet_by_name('bouton_pause').visible = True
     ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_difficile'])
     x = randint(0, 2)
-    plateau = deepcopy(l_difficile[x])
-    plateau_depart = deepcopy(l_difficile[x])
-    plateau_corige = deepcopy(l_difficile[x])
+    plateau = deepcopy(l_difficiles[x])
+    plateau_depart = deepcopy(l_difficiles[x])
+    plateau_corige = deepcopy(l_difficiles[x])
     solveSudoku(plateau_corige)
 
 
@@ -259,7 +285,7 @@ def draw():
                 strokeWeight(1)
                 if plateau[j][i] != 0:
                     if plateau_depart[j][i] == 0:
-                        if fini == 4:
+                        if fini == 3:
                             for k in liste_faux:
                                 text(str(plateau[k[0]][k[1]]), taillecase * k[1], taillecase * k[0], taillecase,
                                      taillecase,
