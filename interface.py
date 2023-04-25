@@ -2,6 +2,7 @@ from likeprocessing.processing import *
 from snake import Snake
 from casse_tete_in_dialog import CasseTete
 from memory.memory_file import Memory
+from sudoku.sudoku import Sudoku
 
 jeux = ['Morpion', 'Puissance 4', 'Snake', 'Démineur', 'Casse-tête', 'Pendu', 'Memory', 'Sudoku']
 img = [loadImage('img/Morpion.jpg'), loadImage('img/Puissance4.jpg'), loadImage('img/Snake.jpg'),

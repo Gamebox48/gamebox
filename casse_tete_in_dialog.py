@@ -31,7 +31,7 @@ class CasseTete(Dialog):
         self.plateau = []
         self.init_puzzle()
         self.terminer = False
-
+&
     def quitter(self):
         self.terminer = True
         super().quitter()
