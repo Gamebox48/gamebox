@@ -6,13 +6,20 @@ taillecase = 30
 textFont("Comic sans ms", 20)
 ihm = IhmScreen()
 
-hardest_sudoku = [[8, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 3, 6, 0, 0, 0, 0, 0], [0, 7, 0, 0, 9, 0, 2, 0, 0],
-                  [0, 5, 0, 0, 0, 7, 0, 0, 0], [0, 0, 0, 0, 4, 5, 7, 0, 0], [0, 0, 0, 1, 0, 0, 0, 3, 0],
-                  [0, 0, 1, 0, 0, 0, 0, 6, 8], [0, 0, 8, 5, 0, 0, 0, 1, 0], [0, 9, 0, 0, 0, 0, 4, 0, 0]]
+facile_1=[[0,6,0,4,2,0,0,0,1],[1,9,0,0,8,3,0,2,0],[0,0,2,0,1,0,7,0,0],
+          [0,0,0,8,7,0,5,0,0],[0,5,1,3,4,9,0,0,2],[4,0,3,0,5,0,0,8,0],
+          [6,0,5,1,3,2,0,0,0],[7,0,4,0,0,8,0,1,0],[0,1,0,0,6,0,8,5,0]]
 
-plateau = deepcopy(hardest_sudoku)
-plateau_depart = deepcopy(hardest_sudoku)
-plateau_corige = deepcopy(hardest_sudoku)
+facile_2=[[0,7,3,2,5,0,8,9,0],[8,0,1,0,0,9,0,0,0],[9,0,0,8,0,0,0,4,0],
+          [0,1,9,0,6,4,5,0,8],[0,0,0,1,0,0,0,7,9],[0,3,4,0,0,8,0,6,0],
+          [0,6,8,4,2,0,0,1,0],[0,4,0,0,1,0,6,8,7],[1,0,0,0,0,0,0,5,4]]
+
+facile_3=[[0,7,0,0,0,5,0,0,0],[1,0,0,0,3,0,5,0,8],[0,0,0,2,0,9,0,6,0],
+          [9,1,0,5,0,0,4,2,0],[6,8,0,3,0,0,0,1,0],[2,5,4,0,9,0,0,0,3],
+          [7,0,6,8,0,1,0,4,0],[3,4,5,0,0,6,0,7,1],[0,0,1,0,7,0,2,0,6]]
+
+moyen_1=[[]]
+
 
 fini = 0
 liste_faux = []
@@ -178,7 +185,7 @@ def commence_facile():
     global plateau, plateau_corige, plateau_depart, fini
     fini = 1
     ihm.objet_by_name('bouton_pause').visible = True
-    ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_dificile'])
+    ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_difficile'])
     x = randint(0, 2)
     plateau = deepcopy(l_facile[x])
     plateau_depart = deepcopy(l_facile[x])
@@ -190,7 +197,7 @@ def commence_moyen():
     global plateau, plateau_corige, plateau_depart, fini
     fini = 1
     ihm.objet_by_name('bouton_pause').visible = True
-    ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_dificile'])
+    ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_difficile'])
     x = randint(0, 2)
     plateau = deepcopy(l_moyen[x])
     plateau_depart = deepcopy(l_moyen[x])
@@ -198,15 +205,15 @@ def commence_moyen():
     solveSudoku(plateau_corige)
 
 
-def commence_dificile():
+def commence_difficile():
     global plateau, plateau_corige, plateau_depart, fini
     fini = 1
     ihm.objet_by_name('bouton_pause').visible = True
-    ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_dificile'])
+    ihm.unvisibleb(['bouton_facile', 'bouton_moyen', 'bouton_difficile'])
     x = randint(0, 2)
-    plateau = deepcopy(l_dificile[x])
-    plateau_depart = deepcopy(l_dificile[x])
-    plateau_corige = deepcopy(l_dificile[x])
+    plateau = deepcopy(l_difficile[x])
+    plateau_depart = deepcopy(l_difficile[x])
+    plateau_corige = deepcopy(l_difficile[x])
     solveSudoku(plateau_corige)
 
 
@@ -228,8 +235,8 @@ ihm.addObjet(Bouton(ihm, (15, 270, 70, 50), 'Facile', command=commence_facile),
              'bouton_facile')
 ihm.addObjet(Bouton(ihm, (100, 270, 70, 50), 'Moyen', command=commence_moyen),
              'bouton_moyen')
-ihm.addObjet(Bouton(ihm, (185, 270, 70, 50), 'Dificile', command=commence_dificile),
-             'bouton_dificile')
+ihm.addObjet(Bouton(ihm, (185, 270, 70, 50), 'Difficile', command=commence_difficile),
+             'bouton_difficile')
 ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', 'bouton_recommencer_fin',
                 'bouton_menu_fin', 'bouton_corrige', 'bouton_verifie'])
 
@@ -269,12 +276,9 @@ def draw():
             line(90 * (i + 1), 0, 90 * (i + 1), 270)
             line(0, 90 * (i + 1), 270, 90 * (i + 1))
     else:
-        text('Choisissez la dificulté.',0,0,270,270)
+        text('Choisissez la difficulté.',0,0,270,270)
     ihm.draw()
 
 
 run(globals())
 
-if __name__ == '__main__':
-    solveSudoku(hardest_sudoku, 0, 0)
-    print_sudoku(hardest_sudoku)
