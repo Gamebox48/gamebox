@@ -18,8 +18,6 @@ class CasseTete(Dialog):
         self.addObjet(Bouton(self, (141, 300, 110, 50), 'Continuer', command=self.reprendre, visible=False), 'bouton_reprendre')
         self.addObjet(Bouton(self, (1, 300, 110, 50), 'Recommencer', command=self.init_puzzle, visible=False),
                       'bouton_recommencer_pause')
-        self.addObjet(Bouton(self, (2, 300, 125, 50), 'Recommencer', command=self.init_puzzle, visible=False),
-                      'bouton_recommencer_fin')
         self.ajuste(1)
         self.fini = 0
         self.plateau = []
@@ -43,7 +41,7 @@ class CasseTete(Dialog):
         self.fini = 0
         self.title = f" progression {self.gagne()}%"
         self.objet_by_name('bouton_pause').visible = True
-        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_recommencer_fin'])
+        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause'])
 
     def move_case(self, case: tuple):
         i, j = case
@@ -103,7 +101,6 @@ class CasseTete(Dialog):
             self.title = f" progression {score}%"
             if score == 100:
                 self.fini = 2
-                self.objet_by_name('bouton_recommencer_fin').visible = True
                 self.objet_by_name('bouton_pause').visible = False
         super().scan_mouse()
 
