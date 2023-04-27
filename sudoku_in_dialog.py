@@ -264,6 +264,8 @@ class Sudoku(Dialog):
                 strokeWeight(4)
                 line(150 * (i + 1), 0, 150 * (i + 1), 450)
                 line(0, 150 * (i + 1), 450, 150 * (i + 1))
+            if self.fini==1 and self.rempli()==False:
+                text("Appuyez sur une touche de chiffre (ou sur\nretour pour effacer) de votre clavier et cliquez\navec votre souris sur une case en même temps",0,495,450,75, font_color="black",no_stroke=True,font_size=15 )
         else:
             text('Choisissez la difficulté.', 0, 0, 450, 450)
 
