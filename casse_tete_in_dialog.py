@@ -87,7 +87,7 @@ class CasseTete(Dialog):
 
     def melange(self):
         c = 0
-        while c < 100:
+        while c < 1000:
             i, j = randint(0, CasseTete.nb_case_hauteur - 1), randint(0, CasseTete.nb_case_largeur - 1)
             if self.move_case((i, j)):
                 c += 1

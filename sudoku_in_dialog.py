@@ -2,19 +2,16 @@ from likeprocessing.processing import *
 from copy import deepcopy
 
 class Sudoku(Dialog):
-    taillecase = 30
+    textAlign("center","center")
     textFont("Comic sans ms", 20)
-
-
-
-
+    taillecase = 30
     def __init__(self,parent,posx,posy):
         super().__init__(parent,
                          (posx, posy, Sudoku.taillecase * 9,
-                          Sudoku.taillecase * (9 + 2)))
+                          Sudoku.taillecase * (9 + 4)),cadre=False)
         self.paint = Painter(self, (
-            0, 0, Sudoku.taillecase * 9 + 1,
-            Sudoku.taillecase * 9 + 1))
+            0, 0, Sudoku.taillecase * 9,
+            Sudoku.taillecase * 9))
         self.paint.draw_paint = self.draw_paint
         self.addObjet(self.paint)
         self.addObjet(Bouton(ihm, (120, 285, 30, 30), '||', command=self.pause, visible=False), 'bouton_pause')
@@ -226,3 +223,62 @@ class Sudoku(Dialog):
 
     def isValid(self,grid: list, i: int, j: int, e: int) -> bool:
         return self.rowOK(grid, i, e) and self.columnOK(grid, j, e) and self.sectorOK(grid, i, j, e)
+
+    def compute(self):
+        if mouse_button_pressed() == 0:
+            i, j = ((mouseY() // self.taillecase), (mouseX() // self.taillecase))
+            if i <= 8 and j <= 8:
+                if self.fini == 1:
+                    self.place((i, j))
+                if self.fini == 3:
+                    self.reprendre()
+
+    def scan_mouse(self):
+        super().scan_mouse()
+        self.compute()
+
+    def draw_paint(self):
+        if self.fini != 0:
+            for i in range(9):
+                for j in range(9):
+                    strokeWeight(1)
+                    if self.plateau[j][i] != 0:
+                        if self.plateau_depart[j][i] == 0:
+                            if self.fini == 3:
+                                for k in self.liste_faux:
+                                    text(str(self.plateau[k[0]][k[1]]), self.taillecase * k[1], self.taillecase * k[0], self.taillecase,
+                                         self.taillecase,font_color="red")
+                            text(str(self.plateau[j][i]), self.taillecase * i, self.taillecase * j, self.taillecase, self.taillecase,
+                                 font_color="blue")
+                        else:
+                            text(str(self.plateau[j][i]), self.taillecase * i, self.taillecase * j, self.taillecase, self.taillecase,
+                                 fontcolor="black")
+                    else:
+                        text("", self.taillecase * i, self.taillecase * j, self.taillecase, self.taillecase)
+            for i in range(2):
+                strokeWeight(4)
+                line(90 * (i + 1), 0, 90 * (i + 1), 270)
+                line(0, 90 * (i + 1), 270, 90 * (i + 1))
+        else:
+            text('Choisissez la difficulté.', 0, 0, 270, 270)
+
+if __name__ == '__main__':
+    ihm = IhmScreen()
+
+
+    def setup():
+        createCanvas(270,390)
+        background("grey")
+        ihm.init()
+        ihm.addObjet(Sudoku(ihm, 0, 0))
+
+
+    def compute():
+        ihm.scan_events()
+
+
+    def draw():
+        ihm.draw()
+
+
+    run(globals())
