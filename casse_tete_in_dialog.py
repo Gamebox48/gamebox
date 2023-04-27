@@ -1,6 +1,6 @@
 from likeprocessing.processing import *
 
-ihm = IhmScreen()
+
 
 
 class CasseTete(Dialog):

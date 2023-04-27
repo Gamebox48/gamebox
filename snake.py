@@ -4,7 +4,7 @@ from random import shuffle
 
 
 class Snake:
-    x, y, width, height = (200, 150, 400, 400)
+    x, y, width, height = (405, 45, 730, 520)
     head_x, head_y = 100, 100
     tempo = Tempo(100)
     vitesse_x = 10
@@ -12,20 +12,20 @@ class Snake:
     serpent = []
     perdu = False
     nourriture = []
-    textFont("arial", 20)
 
     @classmethod
     def init_nourriture(cls, n=10) -> list:
-        posx = [i for i in range(10, 400, 10)]
+        posx = [i for i in range(10, cls.width, 10)]
         shuffle(posx)
-        posy = [i for i in range(10, 400, 10)]
+        posy = [i for i in range(10, cls.height, 10)]
         shuffle(posy)
         return [(posx[i], posy[i]) for i in range(n)]
 
     @classmethod
     def init_snake(cls):
         cls.nourriture = cls.init_nourriture(20)
-        cls.serpent = [(cls.head_x - 10 * i, cls.head_y) for i in range(1)]
+        cls.serpent = [(cls.head_x - 10 * i, cls.head_y) for i in range(20)]
+        cls.perdu = False
 
     @classmethod
     def compute(cls):
@@ -77,9 +77,9 @@ class Snake:
         for i in range(len(cls.serpent)):
             rect(cls.serpent[i][0], cls.serpent[i][1], 10, 10, fill="red", rect_mode="center")
         if cls.perdu:
-            text("Tu as perdu", 0, cls.height / 2 - 25, 400, 50, font_size=50, align_h="center", no_fill=True,
+            text("Vous avez perdu !!!", 0, cls.height *2/ 3 - 25, cls.width, 50, font_size=50, align_h="center", no_fill=True,
                  no_stroke=True)
-        text(str(len(cls.serpent) * 10), 10, -25, no_stroke=True, no_fill=True)
+        text(str(len(cls.serpent) * 10), 10, -45, no_stroke=True, no_fill=True,font_size=20)
         # rect(0, 0, cls.width, cls.height, stroke_weight=10,no_fill=True)
 
 
@@ -94,6 +94,7 @@ if __name__ == '__main__':
         Snake.compute()
 
 
-    draw = Snake.draw
+    def draw():
+        Snake.draw()
 
     run(globals())
