@@ -1,20 +1,18 @@
 from likeprocessing.processing import *
 
 class Morpion(Dialog):
-    textAlign("center")
-    textFont("Comic sans ms", 30)
+    textAlign("center","center")
     taillecase = 100
+    textFont("Comic sans ms")
     def __init__(self, parent, posx, posy):
         super().__init__(parent,
                          (posx, posy, Morpion.taillecase * 3,
                           Morpion.taillecase * 4),cadre=False)
         self.paint = Painter(self, (
-            0, 0, Morpion.taillecase * 9,
-            Morpion.taillecase * 9))
+            0, 0, Morpion.taillecase * 3,
+            Morpion.taillecase * 4))
         self.paint.draw_paint = self.draw_paint
         self.addObjet(self.paint)
-        self.addObjet(Bouton(ihm, (0, 350, 150, 50), 'Recommencer', command=self.init_morpion,visible=False), 'bouton_recommencer')
-        self.addObjet(Bouton(ihm, (150, 350, 150, 50), 'Retour au menu', command=self.init_morpion,visible=False), 'bouton_menu')
         self.tour = 1
         self.gagnant = 0
         self.fini = 0
@@ -22,8 +20,6 @@ class Morpion(Dialog):
 
     def init_morpion(self):
         self.plateau = [["", "", ""], ["", "", ""], ["", "", ""]]
-        self.objet_by_name('bouton_recommencer').visible = False
-        self.objet_by_name('bouton_menu').visible = False
         self.fini = 0
         self.gagnant = 0
 
@@ -57,10 +53,10 @@ class Morpion(Dialog):
             for j in range(3):
                 if self.tour == 1:
                     self.couleur = "red"
-                    text('Au joueur 1 de jouer.', 0, 300, 300, 100)
+                    text('Au joueur 1 de jouer.', 0, 300, 300, 100, font_size=30)
                 else:
                     self.couleur = "blue"
-                    text('Au joueur 2 de jouer.', 0, 300, 300, 100)
+                    text('Au joueur 2 de jouer.', 0, 300, 300, 100, font_size=30)
                 if self.plateau[j][i] == "":
                     rect(self.taillecase * i, self.taillecase * j, self.taillecase, self.taillecase, fill_mouse_on=self.couleur, command=self.place,
                          name=(i, j))
@@ -77,17 +73,14 @@ class Morpion(Dialog):
                          stroke="blue")
                     strokeWeight(1)
                 if self.gagnant == 1:
-                    text('Le joueur 1 a gagné!', 0, 300, 300, 100)
+                    text('Le joueur 1 a gagné!', 0, 300, 300, 100, font_size=30)
                     self.fini = 2
                 elif self.gagnant == 2:
-                    text('Le joueur 2 a gagné!', 0, 300, 300, 100)
+                    text('Le joueur 2 a gagné!', 0, 300, 300, 100, font_size=30)
                     self.fini = 2
                 if self.recherche() == False and self.fini != 2:
-                    text('Match nul', 0, 300, 300, 100)
+                    text('Match nul', 0, 300, 300, 100, font_size=30)
                     self.fini = 1
-        if self.fini != 0:
-            self.objet_by_name('bouton_recommencer').visible = True
-            self.objet_by_name('bouton_menu').visible = True
 
 if __name__ == '__main__':
     ihm = IhmScreen()

@@ -72,6 +72,15 @@ def compute():
     elif index_jeu == 0:
         if ihm.objet_by_name("morpion").destroy:
             jeu_en_cours = False
+        if ihm.objet_by_name("morpion").fini != 0:
+            if AskYesNo(ihm, "Voulez-vous\nrejouer").response() == 0:
+                index_jeu = 0
+                ihm.addObjet(Morpion(ihm, 620, 100), "morpion")
+                jeu_en_cours = True
+            else:
+                jeu_en_cours = False
+                index_jeu = -2
+                ihm.init()
     elif index_jeu == 2:
         # calculs pour le jeu snake
         if Snake.perdu:
