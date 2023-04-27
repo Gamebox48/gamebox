@@ -153,7 +153,7 @@ def corrige():
     global plateau, plateau_corige
     plateau = deepcopy(plateau_corige)
     ihm.visibled(['bouton_recommencer_fin', 'bouton_menu_fin'])
-    ihm.unvisibleb(['bouton_corrige'])
+    ihm.unvisibleb(['bouton_corrige','bouton_verifie'])
 
 
 def compare():
@@ -195,7 +195,7 @@ def reprendre():
 def pause():
     global fini
     ihm.objet_by_name('bouton_pause').visible = False
-    ihm.visibled(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause','bouton_verifie'])
+    ihm.visibled(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause'])
     fini = 2
 
 
@@ -257,14 +257,14 @@ ihm.addObjet(Bouton(ihm, (135, 330, 135, 60), 'Corriger', command=corrige, visib
              'bouton_corrige')
 ihm.addObjet(Bouton(ihm, (0, 330, 135, 60), 'Verifier', command=compare, visible=False),
              'bouton_verifie')
-ihm.addObjet(Bouton(ihm, (15, 270, 70, 50), 'Facile', command=commence_facile),
+ihm.addObjet(Bouton(ihm, (15, 305, 70, 50), 'Facile', command=commence_facile),
              'bouton_facile')
-ihm.addObjet(Bouton(ihm, (100, 270, 70, 50), 'Moyen', command=commence_moyen),
+ihm.addObjet(Bouton(ihm, (100, 305, 70, 50), 'Moyen', command=commence_moyen),
              'bouton_moyen')
-ihm.addObjet(Bouton(ihm, (185, 270, 70, 50), 'Difficile', command=commence_difficile),
+ihm.addObjet(Bouton(ihm, (185,305, 70, 50), 'Difficile', command=commence_difficile),
              'bouton_difficile')
 ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', 'bouton_recommencer_fin',
-                'bouton_menu_fin', 'bouton_corrige', 'bouton_verifie'])
+                'bouton_menu_fin', 'bouton_corrige', 'bouton_verifie','bouton_pause'])
 
 
 def compute():
@@ -290,8 +290,6 @@ def draw():
                                 text(str(plateau[k[0]][k[1]]), taillecase * k[1], taillecase * k[0], taillecase,
                                      taillecase,
                                      font_color="red")
-                            sleep(5)
-                            reprendre()
                         text(str(plateau[j][i]), taillecase * i, taillecase * j, taillecase, taillecase,
                              font_color="blue")
                     else:
