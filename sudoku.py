@@ -243,7 +243,7 @@ def commence_difficile():
     solveSudoku(plateau_corige)
 
 
-ihm.addObjet(Bouton(ihm, (120, 285, 30, 30), '||', command=pause), 'bouton_pause')
+ihm.addObjet(Bouton(ihm, (120, 285, 30, 30), '||', command=pause, visible=False), 'bouton_pause')
 ihm.addObjet(Bouton(ihm, (120, 285, 30, 30), '||', command=reprendre, visible=False), 'bouton_reprendre')
 ihm.addObjet(Bouton(ihm, (0, 270, 120, 60), 'Recommencer', command=init_sudoku, visible=False),
              'bouton_recommencer_pause')
@@ -263,8 +263,7 @@ ihm.addObjet(Bouton(ihm, (100, 305, 70, 50), 'Moyen', command=commence_moyen),
              'bouton_moyen')
 ihm.addObjet(Bouton(ihm, (185,305, 70, 50), 'Difficile', command=commence_difficile),
              'bouton_difficile')
-ihm.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', 'bouton_recommencer_fin',
-                'bouton_menu_fin', 'bouton_corrige', 'bouton_verifie','bouton_pause'])
+
 
 
 def compute():
