@@ -1,5 +1,6 @@
 from likeprocessing.processing import *
 
+
 class MyGame(Dialog):
     def __init__(self, parent, x, y):
         """parent : ihm
@@ -12,11 +13,11 @@ class MyGame(Dialog):
         self.paint = Painter(self, (0, 0, 400, 300))
         self.paint.draw_paint = self.draw_paint
         # ajout de self.paint à la fenêtre du jeu
-        self.addObjet(self.paint,"paint")
+        self.addObjet(self.paint, "paint")
         # ajout de deux boutons par exemple
-        self.addObjet(Bouton(self,(0,0,30,20),"bp1",command = self.click_bp1),"bp1")
+        self.addObjet(Bouton(self, (0, 0, 30, 20), "bp1", command=self.click_bp1), "bp1")
         self.addObjet(Bouton(self, (0, 0, 30, 20), "bp2", command=self.click_bp2), "bp2")
-        self.pack(["paint",["bp1","bp2"]])
+        self.pack(["paint", ["bp1", "bp2"]])
 
         # variable du jeux
         self.compteur = 0
@@ -31,8 +32,8 @@ class MyGame(Dialog):
 
     def compute(self):
         # ici ce trouve de code pour les calculs du jeu
-        self.compteur +=1
-        if self.compteur>=1000:
+        self.compteur += 1
+        if self.compteur >= 1000:
             self.compteur = 0
 
     def scan_mouse(self):
@@ -42,21 +43,27 @@ class MyGame(Dialog):
         self.compute()
 
     def draw_paint(self):
-        text(f"valeur du compteur {self.compteur}",30,50)
+        text(f"valeur du compteur {self.compteur}", 30, 50)
+
 
 if __name__ == '__main__':
     ihm = IhmScreen()
+
+
     def setup():
-        createCanvas(800,600)
+        createCanvas(800, 600)
         background("grey")
         ihm.init()
         # ajout du jeu dans l'ihm
-        ihm.addObjet(MyGame(ihm,50,30))
+        ihm.addObjet(MyGame(ihm, 50, 30))
+
 
     def compute():
         ihm.scan_events()
 
+
     def draw():
         ihm.draw()
+
 
     run(globals())

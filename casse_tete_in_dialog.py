@@ -1,8 +1,6 @@
 from likeprocessing.processing import *
 
 
-
-
 class CasseTete(Dialog):
     taillecase = 50
     nb_case_hauteur = 5
@@ -10,11 +8,11 @@ class CasseTete(Dialog):
 
     def __init__(self, parent, posx, posy):
         super().__init__(parent,
-                         (posx, posy, CasseTete.taillecase * CasseTete.nb_case_largeur+4,
+                         (posx, posy, CasseTete.taillecase * CasseTete.nb_case_largeur + 4,
                           CasseTete.taillecase * (CasseTete.nb_case_hauteur + 2)))
         self.paint = Painter(self, (
-            1, 0, CasseTete.taillecase * CasseTete.nb_case_largeur+1,
-            CasseTete.taillecase * CasseTete.nb_case_hauteur+1))
+            1, 0, CasseTete.taillecase * CasseTete.nb_case_largeur + 1,
+            CasseTete.taillecase * CasseTete.nb_case_hauteur + 1))
         self.paint.draw_paint = self.draw_paint
         self.addObjet(self.paint)
         self.addObjet(Bouton(self, (111, 310, 30, 30), '||', command=self.pause), 'bouton_pause')
@@ -36,11 +34,11 @@ class CasseTete(Dialog):
 
     def mouse_x_paint(self):
         """retourne la position x de la souris dans le repère de paint"""
-        return mouseX()-self.paint.absolute()[0]
+        return mouseX() - self.paint.absolute()[0]
 
     def mouse_y_paint(self):
         """retourne la position y de la souris dans le repère de paint"""
-        return mouseY()-self.paint.absolute()[1]
+        return mouseY() - self.paint.absolute()[1]
 
     def init_puzzle(self):
         self.plateau = [[i * CasseTete.nb_case_largeur + j + 1 for j in range(CasseTete.nb_case_largeur)] for i in
@@ -51,8 +49,7 @@ class CasseTete(Dialog):
         self.title = f" progression {self.gagne()}%"
         self.objet_by_name('bouton_pause').visible = True
         self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', 'bouton_recommencer_fin',
-                        'bouton_menu_fin'])
-
+                         'bouton_menu_fin'])
 
     def move_case(self, case: tuple):
         i, j = case
@@ -80,19 +77,18 @@ class CasseTete(Dialog):
             for j in range(CasseTete.nb_case_largeur):
                 if self.plateau[i][j] == i * CasseTete.nb_case_largeur + j + 1:
                     # return False
-                    score+=1
+                    score += 1
         # self.fini = 2
         # self.objet_by_name('bouton_recommencer_fin').visible = True
         # self.objet_by_name('bouton_menu_fin').visible = True
         # self.objet_by_name('bouton_pause').visible = False
         # return True
-        return int(score * 100 / (CasseTete.nb_case_hauteur * CasseTete.nb_case_largeur-1))
+        return int(score * 100 / (CasseTete.nb_case_hauteur * CasseTete.nb_case_largeur - 1))
 
     def melange(self):
         c = 0
-        while c < 10:
+        while c < 1000:
             i, j = randint(0, CasseTete.nb_case_hauteur - 1), randint(0, CasseTete.nb_case_largeur - 1)
-            print(i, j)
             if self.move_case((i, j)):
                 c += 1
 

@@ -41,7 +41,7 @@ def init_morpion():
     fini = 0
     gagnant = 0
 
-def morpion(name):
+def place(name):
     global plateau, tour
     if fini == 0:
         print(name)
@@ -80,7 +80,7 @@ def draw():
                 couleur = "blue"
                 text('Au joueur 2 de jouer.', 0, 300, 300, 100)
             if plateau[j][i] == "":
-                rect(taillecase * i, taillecase * j, taillecase, taillecase, fill_mouse_on=couleur, command=morpion,
+                rect(taillecase * i, taillecase * j, taillecase, taillecase, fill_mouse_on=couleur, command=place,
                      name=(i, j))
             elif plateau[j][i] == 1:
                 rect(taillecase * i, taillecase * j, taillecase, taillecase, fill="white")
