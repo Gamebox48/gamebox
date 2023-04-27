@@ -1,6 +1,5 @@
 from likeprocessing.processing import *
 
-
 class CasseTete(Dialog):
     taillecase = 50
     nb_case_hauteur = 5
@@ -19,11 +18,11 @@ class CasseTete(Dialog):
         self.addObjet(Bouton(self, (111, 310, 30, 30), '||', command=self.reprendre, visible=False), 'bouton_reprendre')
         self.addObjet(Bouton(self, (1, 300, 110, 50), 'Recommencer', command=self.init_puzzle, visible=False),
                       'bouton_recommencer_pause')
-        self.addObjet(Bouton(self, (140, 300, 110, 50), 'Retour au menu', command=self.init_puzzle, visible=False),
+        self.addObjet(Bouton(self, (140, 300, 110, 50), 'Retour au menu', command=self.arrete, visible=False),
                       'bouton_menu_pause')
         self.addObjet(Bouton(self, (2, 300, 125, 50), 'Recommencer', command=self.init_puzzle, visible=False),
                       'bouton_recommencer_fin')
-        self.addObjet(Bouton(self, (126, 300, 125, 50), 'Retour au menu', command=self.reprendre, visible=False),
+        self.addObjet(Bouton(self, (126, 300, 125, 50), 'Retour au menu', command=self.arrete, visible=False),
                       'bouton_menu_fin')
         self.ajuste(1)
         self.fini = 0
@@ -51,9 +50,13 @@ class CasseTete(Dialog):
         self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', 'bouton_recommencer_fin',
                          'bouton_menu_fin'])
 
+    def arrete(self):
+        self.destroy
+
     def move_case(self, case: tuple):
         i, j = case
-        if i > CasseTete.nb_case_hauteur or j > CasseTete.nb_case_largeur:
+        if i > CasseTete.nb_case_hauteur or j > CasseTete.nb_case_largeur \
+                or i < 0 or j < 0 :
             return False
         if i + 1 <= CasseTete.nb_case_hauteur - 1 and self.plateau[i + 1][j] == 0:
             self.plateau[i][j], self.plateau[i + 1][j] = self.plateau[i + 1][j], self.plateau[i][j]

@@ -2,6 +2,7 @@ from likeprocessing.processing import *
 from snake import Snake
 from casse_tete_in_dialog import CasseTete
 from memory.memory_file import Memory
+from morpion_in_dialog import Morpion
 # from sudoku.sudoku import Sudoku
 
 jeux = ['Morpion', 'Puissance 4', 'Snake', 'Démineur', 'Casse-tête', 'Pendu', 'Memory', 'Sudoku']
@@ -10,7 +11,7 @@ img = [loadImage('img/Morpion.jpg'), loadImage('img/Puissance4.jpg'), loadImage(
        loadImage('img/Memory.jpg'), loadImage('img/Sudoku.jpg')]
 fond = loadImage('img/logo.png')
 boite = loadImage('img/boite.jpg')
-index_jeu = 0
+index_jeu = -1
 jeu_en_cours = False
 index_dessin_jeu = -1
 quitter_jeu_en_cours = False
@@ -24,6 +25,11 @@ def click(name):
         if name != index_jeu:
             quitter_jeu_en_cours = True
     else:
+        if name == 0:
+            ihm.init()
+            ihm.addObjet(Morpion(ihm, 620, 100), "morpion")
+            index_jeu=0
+            jeu_en_cours = True
         if name == 2:
             index_jeu = 2
             Snake.init_snake()
@@ -53,8 +59,11 @@ def compute():
         if AskYesNo(ihm, "Voulez-vous Vraiment\nquitter le jeu en cours").response() == 0:
             ihm.init()
             jeu_en_cours = False
-            index_jeu = -1
+            index_jeu = -2
         quitter_jeu_en_cours = False
+    elif index_jeu == 0:
+        if ihm.objet_by_name("morpion").destroy:
+            jeu_en_cours = False
     elif index_jeu == 2:
         # calculs pour le jeu snake
         if Snake.perdu:
@@ -64,7 +73,7 @@ def compute():
                 jeu_en_cours = True
             else:
                 jeu_en_cours = False
-                index_jeu = -1
+                index_jeu = -2
         Snake.compute()
     elif index_jeu == 4:
         # est ce la fin du jeu casse tete
