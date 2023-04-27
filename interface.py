@@ -3,6 +3,8 @@ from snake import Snake
 from casse_tete_in_dialog import CasseTete
 from memory.memory_file import Memory
 from morpion_in_dialog import Morpion
+from sudoku_in_dialog import Sudoku
+from time import sleep
 # from sudoku.sudoku import Sudoku
 
 jeux = ['Morpion', 'Puissance 4', 'Snake', 'Démineur', 'Casse-tête', 'Pendu', 'Memory', 'Sudoku']
@@ -44,6 +46,11 @@ def click(name):
             ihm.addObjet(Memory(ihm, 375, 0), "memory")
             index_jeu = 6
             jeu_en_cours = True
+        elif name == 7:
+            ihm.init()
+            ihm.addObjet(Sudoku(ihm, 400, 0), "sudoku")
+            index_jeu = 7
+            jeu_en_cours = True
 
 
 def setup():
@@ -60,6 +67,7 @@ def compute():
             ihm.init()
             jeu_en_cours = False
             index_jeu = -2
+            strokeWeight(1)
         quitter_jeu_en_cours = False
     elif index_jeu == 0:
         if ihm.objet_by_name("morpion").destroy:
@@ -79,11 +87,33 @@ def compute():
         # est ce la fin du jeu casse tete
         if ihm.objet_by_name("casse_tete").destroy:
             jeu_en_cours = False
+        if ihm.objet_by_name("casse_tete").fini == 2:
+            if AskYesNo(ihm, "Voulez-vous\nrejouer").response() == 0:
+                index_jeu = 4
+                ihm.addObjet(CasseTete(ihm, 620, 100), "casse_tete")
+                jeu_en_cours = True
+            else:
+                jeu_en_cours = False
+                index_jeu = -2
+                ihm.init()
     elif index_jeu == 6:
         # calculs et fin du jeu memory
         ihm.objet_by_name("memory").compute()
         if ihm.objet_by_name("memory").destroy:
             jeu_en_cours = False
+    elif index_jeu==7:
+        if ihm.objet_by_name("sudoku").destroy:
+            jeu_en_cours = False
+        if ihm.objet_by_name("sudoku").fini == 4 or ihm.objet_by_name("sudoku").fini == 5:
+            sleep(2)
+            if AskYesNo(ihm, "Voulez-vous\nrejouer").response() == 0:
+                index_jeu = 7
+                ihm.addObjet(CasseTete(ihm, 400, 0), "sudoku")
+                jeu_en_cours = True
+            else:
+                jeu_en_cours = False
+                index_jeu = -2
+                ihm.init()
     ihm.scan_events()
 
 
@@ -103,7 +133,6 @@ def draw():
     rect(0, 0, 350, 600, fill="black")
 
     # bouton de gauche
-
     for i in range(len(jeux)):
         textFont('Comic sans ms', 35)
         text(jeux[i], x, i * (h + 10) + 60, l, h, allign_h="center", allign_v="center", fill="orange", padx=5,

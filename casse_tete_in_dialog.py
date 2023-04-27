@@ -15,15 +15,11 @@ class CasseTete(Dialog):
         self.paint.draw_paint = self.draw_paint
         self.addObjet(self.paint)
         self.addObjet(Bouton(self, (111, 310, 30, 30), '||', command=self.pause), 'bouton_pause')
-        self.addObjet(Bouton(self, (111, 310, 30, 30), '||', command=self.reprendre, visible=False), 'bouton_reprendre')
+        self.addObjet(Bouton(self, (141, 300, 110, 50), 'Continuer', command=self.reprendre, visible=False), 'bouton_reprendre')
         self.addObjet(Bouton(self, (1, 300, 110, 50), 'Recommencer', command=self.init_puzzle, visible=False),
                       'bouton_recommencer_pause')
-        self.addObjet(Bouton(self, (140, 300, 110, 50), 'Retour au menu', command=self.arrete, visible=False),
-                      'bouton_menu_pause')
         self.addObjet(Bouton(self, (2, 300, 125, 50), 'Recommencer', command=self.init_puzzle, visible=False),
                       'bouton_recommencer_fin')
-        self.addObjet(Bouton(self, (126, 300, 125, 50), 'Retour au menu', command=self.arrete, visible=False),
-                      'bouton_menu_fin')
         self.ajuste(1)
         self.fini = 0
         self.plateau = []
@@ -47,11 +43,7 @@ class CasseTete(Dialog):
         self.fini = 0
         self.title = f" progression {self.gagne()}%"
         self.objet_by_name('bouton_pause').visible = True
-        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', 'bouton_recommencer_fin',
-                         'bouton_menu_fin'])
-
-    def arrete(self):
-        self.destroy
+        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_recommencer_fin'])
 
     def move_case(self, case: tuple):
         i, j = case
@@ -81,28 +73,24 @@ class CasseTete(Dialog):
                 if self.plateau[i][j] == i * CasseTete.nb_case_largeur + j + 1:
                     # return False
                     score += 1
-        # self.fini = 2
-        # self.objet_by_name('bouton_recommencer_fin').visible = True
-        # self.objet_by_name('bouton_menu_fin').visible = True
-        # self.objet_by_name('bouton_pause').visible = False
-        # return True
+
         return int(score * 100 / (CasseTete.nb_case_hauteur * CasseTete.nb_case_largeur - 1))
 
     def melange(self):
         c = 0
-        while c < 1000:
+        while c < 10:
             i, j = randint(0, CasseTete.nb_case_hauteur - 1), randint(0, CasseTete.nb_case_largeur - 1)
             if self.move_case((i, j)):
                 c += 1
 
     def pause(self):
         self.objet_by_name('bouton_pause').visible = False
-        self.visibled(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause'])
+        self.visibled(['bouton_reprendre', 'bouton_recommencer_pause'])
         self.fini = 1
 
     def reprendre(self):
         self.objet_by_name('bouton_pause').visible = True
-        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause'])
+        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause'])
         self.fini = 0
 
     def scan_mouse(self):
@@ -116,7 +104,6 @@ class CasseTete(Dialog):
             if score == 100:
                 self.fini = 2
                 self.objet_by_name('bouton_recommencer_fin').visible = True
-                self.objet_by_name('bouton_menu_fin').visible = True
                 self.objet_by_name('bouton_pause').visible = False
         super().scan_mouse()
 

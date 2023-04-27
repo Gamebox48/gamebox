@@ -1,39 +1,35 @@
 from likeprocessing.processing import *
 from copy import deepcopy
 
+
 class Sudoku(Dialog):
-    textAlign("center","center")
-    textFont("Comic sans ms", 20)
-    taillecase = 30
-    def __init__(self,parent,posx,posy):
+    textAlign("center", "center")
+    textFont("Comic sans ms", 30)
+    taillecase = 50
+
+    def __init__(self, parent, posx, posy):
         super().__init__(parent,
                          (posx, posy, Sudoku.taillecase * 9,
-                          Sudoku.taillecase * (9 + 4)),cadre=False)
+                          Sudoku.taillecase * 9 + (30 * 4)), cadre=False)
         self.paint = Painter(self, (
             0, 0, Sudoku.taillecase * 9,
             Sudoku.taillecase * 9))
         self.paint.draw_paint = self.draw_paint
         self.addObjet(self.paint)
-        self.addObjet(Bouton(ihm, (120, 285, 30, 30), '||', command=self.pause, visible=False), 'bouton_pause')
-        self.addObjet(Bouton(ihm, (120, 285, 30, 30), '||', command=self.reprendre, visible=False), 'bouton_reprendre')
-        self.addObjet(Bouton(ihm, (0, 270, 120, 60), 'Recommencer', command=self.init_sudoku, visible=False),
-                     'bouton_recommencer_pause')
-        self.addObjet(Bouton(ihm, (150, 270, 120, 60), 'Retour au menu', command=self.init_sudoku, visible=False),
-                     'bouton_menu_pause')
-        self.addObjet(Bouton(ihm, (0, 270, 135, 60), 'Recommencer', command=self.init_sudoku, visible=False),
-                     'bouton_recommencer_fin')
-        self.addObjet(Bouton(ihm, (135, 270, 135, 60), 'Retour au menu', command=self.reprendre, visible=False),
-                     'bouton_menu_fin')
-        self.addObjet(Bouton(ihm, (135, 330, 135, 60), 'Corriger', command=self.corrige, visible=False),
-                     'bouton_corrige')
-        self.addObjet(Bouton(ihm, (0, 330, 135, 60), 'Verifier', command=self.compare, visible=False),
-                     'bouton_verifie')
-        self.addObjet(Bouton(ihm, (15, 305, 70, 50), 'Facile', command=self.commence_facile),
-                     'bouton_facile')
-        self.addObjet(Bouton(ihm, (100, 305, 70, 50), 'Moyen', command=self.commence_moyen),
-                     'bouton_moyen')
-        self.addObjet(Bouton(ihm, (185, 305, 70, 50), 'Difficile', command=self.commence_difficile),
-                     'bouton_difficile')
+        self.addObjet(Bouton(ihm, (210, 465, 30, 30), '||', command=self.pause, visible=False), 'bouton_pause')
+        self.addObjet(Bouton(ihm, (240, 450, 120, 60), 'Continuer', command=self.reprendre, visible=False), 'bouton_reprendre')
+        self.addObjet(Bouton(ihm, (90, 450, 120, 60), 'Recommencer', command=self.init_sudoku, visible=False),
+                      'bouton_recommencer_pause')
+        self.addObjet(Bouton(ihm, (225, 510, 135, 60), 'Corriger', command=self.corrige, visible=False),
+                      'bouton_corrige')
+        self.addObjet(Bouton(ihm, (75, 510, 135, 60), 'Verifier', command=self.compare, visible=False),
+                      'bouton_verifie')
+        self.addObjet(Bouton(ihm, (30, 305, 110, 70), 'Facile', command=self.commence_facile),
+                      'bouton_facile')
+        self.addObjet(Bouton(ihm, (170, 305, 110, 70), 'Moyen', command=self.commence_moyen),
+                      'bouton_moyen')
+        self.addObjet(Bouton(ihm, (310, 305, 110, 70), 'Difficile', command=self.commence_difficile),
+                      'bouton_difficile')
 
         facile_1 = [[0, 6, 0, 4, 2, 0, 0, 0, 1], [1, 9, 0, 0, 8, 3, 0, 2, 0], [0, 0, 2, 0, 1, 0, 7, 0, 0],
                     [0, 0, 0, 8, 7, 0, 5, 0, 0], [0, 5, 1, 3, 4, 9, 0, 0, 2], [4, 0, 3, 0, 5, 0, 0, 8, 0],
@@ -81,9 +77,9 @@ class Sudoku(Dialog):
     def init_sudoku(self):
         global fini
         self.fini = 0
-        self.visibled(['bouton_facile', 'bouton_moyen', 'bouton_dificile'])
-        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', 'bouton_recommencer_fin',
-                        'bouton_menu_fin', 'bouton_corrige', 'bouton_verifie', 'bouton_pause'])
+        self.visibled(['bouton_facile', 'bouton_moyen', 'bouton_difficile'])
+        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause',
+                        'bouton_corrige', 'bouton_verifie', 'bouton_pause'])
 
     def commence_facile(self):
         self.fini = 1
@@ -117,18 +113,20 @@ class Sudoku(Dialog):
 
     def reprendre(self):
         self.objet_by_name('bouton_pause').visible = True
-        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause', ])
+        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause' ])
         self.fini = 1
 
     def pause(self):
         self.objet_by_name('bouton_pause').visible = False
-        self.visibled(['bouton_reprendre', 'bouton_recommencer_pause', 'bouton_menu_pause'])
+        self.visibled(['bouton_reprendre', 'bouton_recommencer_pause'])
+        self.unvisibleb(['bouton_verifie','bouton_corrige'])
         self.fini = 2
 
     def corrige(self):
         self.plateau = deepcopy(self.plateau_corige)
-        self.visibled(['bouton_recommencer_fin', 'bouton_menu_fin'])
-        self.unvisibleb(['bouton_corrige', 'bouton_verifie'])
+        self.liste_faux=[]
+        self.unvisibleb(['bouton_corrige', 'bouton_verifie','bouton_pause'])
+        self.fini=5
 
     def compare(self):
         self.liste_faux = []
@@ -139,9 +137,9 @@ class Sudoku(Dialog):
         if self.liste_faux != []:
             self.fini = 3
             return False
-        if self.fini != 3:
-            self.unvisibleb(['bouton_pause', 'bouton_verifie'])
-            self.visibled(['bouton_recommencer_fin', 'bouton_menu_fin'])
+        elif self.fini != 5:
+            self.unvisibleb(['bouton_pause', 'bouton_verifie','bouton_pause'])
+            self.fini=4
             print("gagné")
             return True
 
@@ -155,7 +153,7 @@ class Sudoku(Dialog):
         self.visibled(['bouton_verifie', 'bouton_corrige'])
         return True
 
-    def place(self,case: tuple):
+    def place(self, case: tuple):
         i, j = case
         if self.plateau_depart[i][j] != 0:
             return False
@@ -181,7 +179,7 @@ class Sudoku(Dialog):
             self.plateau[i][j] = 0
         self.rempli()
 
-    def solveSudoku(self,grid: list[list], i: int = 0, j: int = 0):
+    def solveSudoku(self, grid: list[list], i: int = 0, j: int = 0):
         i, j = self.findNextCellToFill(grid)
         if i == -1:
             return True
@@ -193,26 +191,26 @@ class Sudoku(Dialog):
         grid[i][j] = 0
         return False
 
-    def findNextCellToFill(self,grid: list[list], idebut: int = 0, jdebut: int = 0) -> tuple:
+    def findNextCellToFill(self, grid: list[list], idebut: int = 0, jdebut: int = 0) -> tuple:
         for i in range(idebut, len(grid)):
             for j in range(jdebut, len(grid[0])):
                 if grid[i][j] == 0:
                     return i, j
         return -1, -1
 
-    def rowOK(self,grid: list, i: int, e: int) -> bool:
+    def rowOK(self, grid: list, i: int, e: int) -> bool:
         for k in range(0, 9):
             if grid[i][k] == e:
                 return False
         return True
 
-    def columnOK(self,grid: list, j: int, e: int) -> bool:
+    def columnOK(self, grid: list, j: int, e: int) -> bool:
         for k in range(0, 9):
             if grid[k][j] == e:
                 return False
         return True
 
-    def sectorOK(self,grid: list, i: int, j: int, e: int) -> bool:
+    def sectorOK(self, grid: list, i: int, j: int, e: int) -> bool:
         id = (i // 3) * 3
         jd = (j // 3) * 3
         for k in range(id, id + 3):
@@ -221,13 +219,13 @@ class Sudoku(Dialog):
                     return False
         return True
 
-    def isValid(self,grid: list, i: int, j: int, e: int) -> bool:
+    def isValid(self, grid: list, i: int, j: int, e: int) -> bool:
         return self.rowOK(grid, i, e) and self.columnOK(grid, j, e) and self.sectorOK(grid, i, j, e)
 
     def compute(self):
         if mouse_button_pressed() == 0:
             i, j = ((mouseY() // self.taillecase), (mouseX() // self.taillecase))
-            if i <= 8 and j <= 8:
+            if i <= 8 and j <= 8 and i >= 0 and j >= 0:
                 if self.fini == 1:
                     self.place((i, j))
                 if self.fini == 3:
@@ -246,28 +244,36 @@ class Sudoku(Dialog):
                         if self.plateau_depart[j][i] == 0:
                             if self.fini == 3:
                                 for k in self.liste_faux:
-                                    text(str(self.plateau[k[0]][k[1]]), self.taillecase * k[1], self.taillecase * k[0], self.taillecase,
-                                         self.taillecase,font_color="red")
-                            text(str(self.plateau[j][i]), self.taillecase * i, self.taillecase * j, self.taillecase, self.taillecase,
+                                    text(str(self.plateau[k[0]][k[1]]), self.taillecase * k[1], self.taillecase * k[0],
+                                         self.taillecase,
+                                         self.taillecase, font_color="red")
+                            text(str(self.plateau[j][i]), self.taillecase * i, self.taillecase * j, self.taillecase,
+                                 self.taillecase,
                                  font_color="blue")
+                            if self.fini==5:
+                                text(str(self.plateau[j][i]), self.taillecase * i, self.taillecase * j, self.taillecase,
+                                     self.taillecase,
+                                     font_color="green")
                         else:
-                            text(str(self.plateau[j][i]), self.taillecase * i, self.taillecase * j, self.taillecase, self.taillecase,
+                            text(str(self.plateau[j][i]), self.taillecase * i, self.taillecase * j, self.taillecase,
+                                 self.taillecase,
                                  fontcolor="black")
                     else:
                         text("", self.taillecase * i, self.taillecase * j, self.taillecase, self.taillecase)
             for i in range(2):
                 strokeWeight(4)
-                line(90 * (i + 1), 0, 90 * (i + 1), 270)
-                line(0, 90 * (i + 1), 270, 90 * (i + 1))
+                line(150 * (i + 1), 0, 150 * (i + 1), 450)
+                line(0, 150 * (i + 1), 450, 150 * (i + 1))
         else:
-            text('Choisissez la difficulté.', 0, 0, 270, 270)
+            text('Choisissez la difficulté.', 0, 0, 450, 450)
+
 
 if __name__ == '__main__':
     ihm = IhmScreen()
 
 
     def setup():
-        createCanvas(270,390)
+        createCanvas(450, 570)
         background("grey")
         ihm.init()
         ihm.addObjet(Sudoku(ihm, 0, 0))
