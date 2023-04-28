@@ -83,6 +83,7 @@ class Sudoku(Dialog):
         # retourne la position de la souris dans le repère de paint
         return mouseY() - self.paint.absolute().y
 
+# initialise le jeu
     def init_sudoku(self):
         global fini
         self.fini = 0
@@ -90,6 +91,7 @@ class Sudoku(Dialog):
         self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause',
                          'bouton_corrige', 'bouton_verifie', 'bouton_pause'])
 
+# commence le jeu avec un sudoku facile
     def commence_facile(self):
         self.fini = 1
         self.objet_by_name('bouton_pause').visible = True
@@ -100,6 +102,7 @@ class Sudoku(Dialog):
         self.plateau_corige = deepcopy(self.l_faciles[x])
         self.solveSudoku(self.plateau_corige)
 
+# commence le jeu avec un sudoku moyen
     def commence_moyen(self):
         self.fini = 1
         self.objet_by_name('bouton_pause').visible = True
@@ -110,6 +113,7 @@ class Sudoku(Dialog):
         self.plateau_corige = deepcopy(self.l_moyens[x])
         self.solveSudoku(self.plateau_corige)
 
+# commence le jeu avec un sudoku difficile
     def commence_difficile(self):
         self.fini = 1
         self.objet_by_name('bouton_pause').visible = True
@@ -120,23 +124,27 @@ class Sudoku(Dialog):
         self.plateau_corige = deepcopy(self.l_difficiles[x])
         self.solveSudoku(self.plateau_corige)
 
+# fait reprendre le jeu
     def reprendre(self):
         self.objet_by_name('bouton_pause').visible = True
         self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause'])
         self.fini = 1
 
+# met en pause le jeu
     def pause(self):
         self.objet_by_name('bouton_pause').visible = False
         self.visibled(['bouton_reprendre', 'bouton_recommencer_pause'])
         self.unvisibleb(['bouton_verifie', 'bouton_corrige'])
         self.fini = 2
 
+# corrige le sudoku grâce à la solution
     def corrige(self):
         self.plateau = deepcopy(self.plateau_corige)
         self.liste_faux = []
         self.unvisibleb(['bouton_corrige', 'bouton_verifie', 'bouton_pause'])
         self.fini = 5
 
+# Vérifie si le sudoku est résolu, si non il fait la liste des cases fausses
     def compare(self):
         self.liste_faux = []
         for i in range(9):
@@ -152,6 +160,7 @@ class Sudoku(Dialog):
             print("gagné")
             return True
 
+# renvoie si la liste est finie
     def rempli(self):
         for i in range(9):
             for j in range(9):
@@ -162,6 +171,7 @@ class Sudoku(Dialog):
         self.visibled(['bouton_verifie', 'bouton_corrige'])
         return True
 
+# place le chiffre tapé dans la case si la case ne possèdait pas de chiffre au départ
     def place(self, case: tuple):
         i, j = case
         if self.plateau_depart[i][j] != 0:
@@ -188,6 +198,8 @@ class Sudoku(Dialog):
             self.plateau[i][j] = 0
         self.rempli()
 
+# résout le sudoku en utilisant une méthode récursive
+# sert à la correction
     def solveSudoku(self, grid: list[list], i: int = 0, j: int = 0):
         i, j = self.findNextCellToFill(grid)
         if i == -1:
@@ -200,6 +212,8 @@ class Sudoku(Dialog):
         grid[i][j] = 0
         return False
 
+# cherche la prochaine case à remplir
+# sert à la correction
     def findNextCellToFill(self, grid: list[list], idebut: int = 0, jdebut: int = 0) -> tuple:
         for i in range(idebut, len(grid)):
             for j in range(jdebut, len(grid[0])):
@@ -207,18 +221,23 @@ class Sudoku(Dialog):
                     return i, j
         return -1, -1
 
+# renvoie si le chiffre que l'on veut placer n'est pas déja sur la ligne {i} où l'on veut placer le chiffre {e}
+# sert à la correction
     def rowOK(self, grid: list, i: int, e: int) -> bool:
         for k in range(0, 9):
             if grid[i][k] == e:
                 return False
         return True
 
+# renvoie si le chiffre {e} que l'on veut placer n'est pas déja sur la colonne {j} où l'on veut placer le chiffre{e}
+# sert à la correction
     def columnOK(self, grid: list, j: int, e: int) -> bool:
         for k in range(0, 9):
             if grid[k][j] == e:
                 return False
         return True
 
+# renvoie si le chiffre {e} que l'on veut placer n'est pas déja dans le secteur 3x3 où l'on veut placer le chiffre {e}
     def sectorOK(self, grid: list, i: int, j: int, e: int) -> bool:
         id = (i // 3) * 3
         jd = (j // 3) * 3
@@ -228,6 +247,8 @@ class Sudoku(Dialog):
                     return False
         return True
 
+# renvoie si le chiffre {e} peut être placé à l'emplacement {i}{j}
+# sert à la correction
     def isValid(self, grid: list, i: int, j: int, e: int) -> bool:
         return self.rowOK(grid, i, e) and self.columnOK(grid, j, e) and self.sectorOK(grid, i, j, e)
 
@@ -244,6 +265,7 @@ class Sudoku(Dialog):
         super().scan_mouse()
         self.compute()
 
+# dessine l'interface de jeu
     def draw_paint(self):
         if self.fini != 0:
             for i in range(9):

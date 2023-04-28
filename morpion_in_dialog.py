@@ -18,11 +18,13 @@ class Morpion(Dialog):
         self.fini = 0
         self.plateau = [["", "", ""], ["", "", ""], ["", "", ""]]
 
+# initialise le jeu
     def init_morpion(self):
         self.plateau = [["", "", ""], ["", "", ""], ["", "", ""]]
         self.fini = 0
         self.gagnant = 0
 
+# renvoie si le plateau possède au moins un espace vide:
     def recherche(self):
         for i in range(3):
             for j in range(3):
@@ -30,6 +32,7 @@ class Morpion(Dialog):
                     return True
         return False
 
+# vérifie si le joueur actuel gagne
     def gagne(self):
         for j in range(len(self.plateau)):
             if self.plateau[j][0] == self.tour and self.plateau[j][1] == self.tour and self.plateau[j][2] == self.tour \
@@ -42,12 +45,14 @@ class Morpion(Dialog):
             return True
         return False
 
+# place une forme dans le plateau et modifie la valeur de tour pour changer de personne qui doit jouer
     def place(self, name):
         if self.fini == 0:
             self.plateau[name[1]][name[0]] = self.tour
             self.gagne()
             self.tour = self.tour % 2 + 1
 
+# dessine l'interface de jeu
     def draw_paint(self):
         for i in range(3):
             for j in range(3):

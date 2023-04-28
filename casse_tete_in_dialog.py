@@ -33,6 +33,7 @@ class CasseTete(Dialog):
         """retourne la position y de la souris dans le repère de paint"""
         return mouseY() - self.paint.absolute()[1]
 
+# initialise le jeu
     def init_puzzle(self):
         self.plateau = [[i * CasseTete.nb_case_largeur + j + 1 for j in range(CasseTete.nb_case_largeur)] for i in
                         range(CasseTete.nb_case_hauteur)]
@@ -43,6 +44,7 @@ class CasseTete(Dialog):
         self.objet_by_name('bouton_pause').visible = True
         self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause'])
 
+# déplace la case choisi si une case à coté est vide
     def move_case(self, case: tuple):
         i, j = case
         if i > CasseTete.nb_case_hauteur or j > CasseTete.nb_case_largeur \
@@ -64,16 +66,17 @@ class CasseTete(Dialog):
             return False
         return True
 
+# renvoie le % de réussite du casse-tête
     def gagne(self):
         score = 0
         for i in range(CasseTete.nb_case_hauteur):
             for j in range(CasseTete.nb_case_largeur):
                 if self.plateau[i][j] == i * CasseTete.nb_case_largeur + j + 1:
-                    # return False
                     score += 1
 
         return int(score * 100 / (CasseTete.nb_case_hauteur * CasseTete.nb_case_largeur - 1))
 
+# mélange le casse-tête
     def melange(self):
         c = 0
         while c < 1000:
@@ -81,16 +84,19 @@ class CasseTete(Dialog):
             if self.move_case((i, j)):
                 c += 1
 
+# met en pause le jeu
     def pause(self):
         self.objet_by_name('bouton_pause').visible = False
         self.visibled(['bouton_reprendre', 'bouton_recommencer_pause'])
         self.fini = 1
 
+# fait reprendre le jeu
     def reprendre(self):
         self.objet_by_name('bouton_pause').visible = True
         self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause'])
         self.fini = 0
 
+#analyse les clics de la souris
     def scan_mouse(self):
         if mouse_button_pressed() == 0:
             i, j = ((self.mouse_y_paint() // CasseTete.taillecase), (self.mouse_x_paint() // CasseTete.taillecase))
@@ -104,6 +110,7 @@ class CasseTete(Dialog):
                 self.objet_by_name('bouton_pause').visible = False
         super().scan_mouse()
 
+# dessine l'interface de jeu
     def draw_paint(self):
         for j in range(CasseTete.nb_case_largeur):
             for i in range(CasseTete.nb_case_hauteur):
