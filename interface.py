@@ -5,6 +5,7 @@ from memory.memory_file import Memory
 from morpion_in_dialog import Morpion
 from sudoku_in_dialog import Sudoku
 from pendu_in_dialog import Pendu
+from puissance_4_dialog import Puissance4
 from time import sleep
 # from sudoku.sudoku import Sudoku
 
@@ -32,6 +33,11 @@ def click(name):
             ihm.init()
             ihm.addObjet(Morpion(ihm, 620, 100), "morpion")
             index_jeu=0
+            jeu_en_cours = True
+        elif name == 1:
+            ihm.init()
+            ihm.addObjet(Puissance4(ihm,400,0),"puissance4")
+            index_jeu=1
             jeu_en_cours = True
         elif name == 2:
             index_jeu = 2
@@ -82,6 +88,20 @@ def compute():
             if AskYesNo(ihm, "Voulez-vous\nrejouer").response() == 0:
                 index_jeu = 0
                 ihm.addObjet(Morpion(ihm, 620, 100), "morpion")
+                jeu_en_cours = True
+            else:
+                jeu_en_cours = False
+                index_jeu = -2
+                ihm.init()
+    elif index_jeu==1:
+        # calculs et fin du jeu puissance 4
+        if ihm.objet_by_name("puissance4").destroy:
+            jeu_en_cours = False
+        if ihm.objet_by_name("puissance4").fini != 0:
+            sleep(2)
+            if AskYesNo(ihm, "Voulez-vous\nrejouer").response() == 0:
+                index_jeu = 1
+                ihm.addObjet(Puissance4(ihm, 400, 0), "puissance4")
                 jeu_en_cours = True
             else:
                 jeu_en_cours = False
