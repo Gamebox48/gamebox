@@ -1,7 +1,10 @@
 from likeprocessing.processing import *
 
 
-class MyGame(Dialog):
+class Puissance4(Dialog):
+
+    textAlign("center","center")
+    textFont("Comic sans ms")
     def __init__(self, parent, x, y):
         """parent : ihm
         x, y : position du jeu dans l'ihm"""
@@ -39,8 +42,8 @@ class MyGame(Dialog):
         self.compute()
 
     def recherche(self):
-        for i in range(9):
-            for j in range(9):
+        for i in range(6):
+            for j in range(7):
                 if self.grille[i][j] == 0:
                     return True
         return False
@@ -138,12 +141,18 @@ class MyGame(Dialog):
         for i in range(len(self.grille)):
             for j in range(len(self.grille[0])):
                 circle(15 + j * pas, y + pas * i, d, fill=self.couleurs[self.grille[i][j]])
-        if self.fini == 1:
-            text("Le joueur 1 à gagné",500,0,300,100, font_size=30)
+        if self.fini==0 and self.recherche()==True:
+            if self.joueur==1:
+                text('Au joueur 1\nde jouer.', 500, 200, 200, 100, font_size=30)
+            else:
+                text('Au joueur 2\nde jouer.', 500, 200, 200, 100, font_size=30)
+        elif self.fini == 1:
+            text("Le joueur 1\nà gagné",500,200,200,100, font_size=30)
         elif self.fini == 2:
-            text("Le joueur 2 à gagné", 500, 0, 300, 100, font_size=30)
+            text("Le joueur 2\nà gagné", 500, 200, 200, 100, font_size=30)
         if self.recherche() == False and (self.fini != 1 or self.fini !=2):
-            text("Match nul", 500, 0, 300, 100, font_size=30)
+            text("Match nul", 500, 200, 200, 100, font_size=30)
+            self.fini=3
 
 
 if __name__ == '__main__':
@@ -155,7 +164,7 @@ if __name__ == '__main__':
         background("grey")
         ihm.init()
         # ajout du jeu dans l'ihm
-        ihm.addObjet(MyGame(ihm, 50, 30))
+        ihm.addObjet(Puissance4(ihm, 50, 30))
 
 
     def compute():
