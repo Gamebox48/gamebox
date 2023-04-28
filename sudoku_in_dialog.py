@@ -17,7 +17,8 @@ class Sudoku(Dialog):
         self.paint.draw_paint = self.draw_paint
         self.addObjet(self.paint)
         self.addObjet(Bouton(ihm, (210, 465, 30, 30), '||', command=self.pause, visible=False), 'bouton_pause')
-        self.addObjet(Bouton(ihm, (240, 450, 120, 60), 'Continuer', command=self.reprendre, visible=False), 'bouton_reprendre')
+        self.addObjet(Bouton(ihm, (240, 450, 120, 60), 'Continuer', command=self.reprendre, visible=False),
+                      'bouton_reprendre')
         self.addObjet(Bouton(ihm, (90, 450, 120, 60), 'Recommencer', command=self.init_sudoku, visible=False),
                       'bouton_recommencer_pause')
         self.addObjet(Bouton(ihm, (225, 510, 135, 60), 'Corriger', command=self.corrige, visible=False),
@@ -74,12 +75,20 @@ class Sudoku(Dialog):
         self.fini = 0
         self.liste_faux = []
 
+    def paint_mouse_x(self):
+        # retourne la position de la souris dans le repère de paint
+        return mouseX() - self.paint.absolute().x
+
+    def paint_mouse_y(self):
+        # retourne la position de la souris dans le repère de paint
+        return mouseY() - self.paint.absolute().y
+
     def init_sudoku(self):
         global fini
         self.fini = 0
         self.visibled(['bouton_facile', 'bouton_moyen', 'bouton_difficile'])
         self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause',
-                        'bouton_corrige', 'bouton_verifie', 'bouton_pause'])
+                         'bouton_corrige', 'bouton_verifie', 'bouton_pause'])
 
     def commence_facile(self):
         self.fini = 1
@@ -113,20 +122,20 @@ class Sudoku(Dialog):
 
     def reprendre(self):
         self.objet_by_name('bouton_pause').visible = True
-        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause' ])
+        self.unvisibleb(['bouton_reprendre', 'bouton_recommencer_pause'])
         self.fini = 1
 
     def pause(self):
         self.objet_by_name('bouton_pause').visible = False
         self.visibled(['bouton_reprendre', 'bouton_recommencer_pause'])
-        self.unvisibleb(['bouton_verifie','bouton_corrige'])
+        self.unvisibleb(['bouton_verifie', 'bouton_corrige'])
         self.fini = 2
 
     def corrige(self):
         self.plateau = deepcopy(self.plateau_corige)
-        self.liste_faux=[]
-        self.unvisibleb(['bouton_corrige', 'bouton_verifie','bouton_pause'])
-        self.fini=5
+        self.liste_faux = []
+        self.unvisibleb(['bouton_corrige', 'bouton_verifie', 'bouton_pause'])
+        self.fini = 5
 
     def compare(self):
         self.liste_faux = []
@@ -138,8 +147,8 @@ class Sudoku(Dialog):
             self.fini = 3
             return False
         elif self.fini != 5:
-            self.unvisibleb(['bouton_pause', 'bouton_verifie','bouton_pause'])
-            self.fini=4
+            self.unvisibleb(['bouton_pause', 'bouton_verifie', 'bouton_pause'])
+            self.fini = 4
             print("gagné")
             return True
 
@@ -224,7 +233,7 @@ class Sudoku(Dialog):
 
     def compute(self):
         if mouse_button_pressed() == 0:
-            i, j = ((mouseY() // self.taillecase), (mouseX() // self.taillecase))
+            i, j = ((self.paint_mouse_y() // self.taillecase), (self.paint_mouse_x() // self.taillecase))
             if i <= 8 and j <= 8 and i >= 0 and j >= 0:
                 if self.fini == 1:
                     self.place((i, j))
@@ -250,7 +259,7 @@ class Sudoku(Dialog):
                             text(str(self.plateau[j][i]), self.taillecase * i, self.taillecase * j, self.taillecase,
                                  self.taillecase,
                                  font_color="blue")
-                            if self.fini==5:
+                            if self.fini == 5:
                                 text(str(self.plateau[j][i]), self.taillecase * i, self.taillecase * j, self.taillecase,
                                      self.taillecase,
                                      font_color="green")
@@ -264,8 +273,10 @@ class Sudoku(Dialog):
                 strokeWeight(4)
                 line(150 * (i + 1), 0, 150 * (i + 1), 450)
                 line(0, 150 * (i + 1), 450, 150 * (i + 1))
-            if self.fini==1 and self.rempli()==False:
-                text("Appuyez sur une touche de chiffre (ou sur\nretour pour effacer) de votre clavier et cliquez\navec votre souris sur une case en même temps",0,495,450,75, font_color="black",no_stroke=True,font_size=15 )
+            if self.fini == 1 and self.rempli() == False:
+                text(
+                    "Appuyez sur une touche de chiffre (ou sur\nretour pour effacer) de votre clavier et cliquez\navec votre souris sur une case en même temps",
+                    0, 495, 450, 75, font_color="black", no_stroke=True, font_size=15)
         else:
             text('Choisissez la difficulté.', 0, 0, 450, 450)
 

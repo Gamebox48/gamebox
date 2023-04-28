@@ -48,7 +48,7 @@ def click(name):
             jeu_en_cours = True
         elif name == 7:
             ihm.init()
-            ihm.addObjet(Sudoku(ihm, 400, 0), "sudoku")
+            ihm.addObjet(Sudoku(ihm, 550, 15), "sudoku")
             index_jeu = 7
             jeu_en_cours = True
 
@@ -111,13 +111,14 @@ def compute():
         if ihm.objet_by_name("memory").destroy:
             jeu_en_cours = False
     elif index_jeu==7:
+        # calculs et fin du jeu sudoku
         if ihm.objet_by_name("sudoku").destroy:
             jeu_en_cours = False
         if ihm.objet_by_name("sudoku").fini == 4 or ihm.objet_by_name("sudoku").fini == 5:
             sleep(2)
             if AskYesNo(ihm, "Voulez-vous\nrejouer").response() == 0:
                 index_jeu = 7
-                ihm.addObjet(CasseTete(ihm, 400, 0), "sudoku")
+                ihm.addObjet(Sudoku(ihm, 400, 0), "sudoku")
                 jeu_en_cours = True
             else:
                 jeu_en_cours = False
