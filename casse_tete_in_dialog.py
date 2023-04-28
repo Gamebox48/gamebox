@@ -69,7 +69,6 @@ class CasseTete(Dialog):
             for j in range(CasseTete.nb_case_largeur):
                 if self.plateau[i][j] == i * CasseTete.nb_case_largeur + j + 1:
                     score += 1
-
         return int(score * 100 / (CasseTete.nb_case_hauteur * CasseTete.nb_case_largeur - 1))
 
 # mélange le casse-tête
