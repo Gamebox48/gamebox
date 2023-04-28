@@ -5,12 +5,12 @@ class MyGame(Dialog):
     def __init__(self, parent, x, y):
         """parent : ihm
         x, y : position du jeu dans l'ihm"""
-        super().__init__(parent, (x, y, 500, 500), cadre=False)
+        super().__init__(parent, (x, y, 800, 500), cadre=False)
         # 500, 500 : largeur et hauteur de la fenêtre du jeu
         # cadre = False supprime la barre de titre de la fenêtre du jeu
         # self.paint : objet de dessin de la fenêtre du jeu
         # les commandes de dessin likeprocessing seront placées dans la méthode self.draw_paint
-        self.paint = Painter(self, (0, 0, 500, 480))
+        self.paint = Painter(self, (0, 0, 800, 500))
         self.paint.draw_paint = self.draw_paint
         # ajout de self.paint à la fenêtre du jeu
         self.addObjet(self.paint, "paint")
@@ -37,6 +37,14 @@ class MyGame(Dialog):
         # l'instruction ihm.scan_events() sera exécutée
         super().scan_mouse()
         self.compute()
+
+    def recherche(self):
+        for i in range(9):
+            for j in range(9):
+                if self.grille[i][j] == 0:
+                    return True
+        return False
+
 
     def click_colonne(self, name):
         if self.fini == 0:
@@ -130,7 +138,12 @@ class MyGame(Dialog):
         for i in range(len(self.grille)):
             for j in range(len(self.grille[0])):
                 circle(15 + j * pas, y + pas * i, d, fill=self.couleurs[self.grille[i][j]])
-        if self.fini
+        if self.fini == 1:
+            text("Le joueur 1 à gagné",500,0,300,100, font_size=30)
+        elif self.fini == 2:
+            text("Le joueur 2 à gagné", 500, 0, 300, 100, font_size=30)
+        if self.recherche() == False and (self.fini != 1 or self.fini !=2):
+            text("Match nul", 500, 0, 300, 100, font_size=30)
 
 
 if __name__ == '__main__':
