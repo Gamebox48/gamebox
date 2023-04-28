@@ -52,16 +52,12 @@ class CasseTete(Dialog):
             return False
         if i + 1 <= CasseTete.nb_case_hauteur - 1 and self.plateau[i + 1][j] == 0:
             self.plateau[i][j], self.plateau[i + 1][j] = self.plateau[i + 1][j], self.plateau[i][j]
-            print("la case s'est déplacé en bas")
         elif i - 1 >= 0 and self.plateau[i - 1][j] == 0:
             self.plateau[i][j], self.plateau[i - 1][j] = self.plateau[i - 1][j], self.plateau[i][j]
-            print("la case s'est déplacé en haut")
         elif j + 1 <= CasseTete.nb_case_largeur - 1 and self.plateau[i][j + 1] == 0:
             self.plateau[i][j], self.plateau[i][j + 1] = self.plateau[i][j + 1], self.plateau[i][j]
-            print("la case s'est déplacé à droite")
         elif j - 1 >= 0 and self.plateau[i][j - 1] == 0:
             self.plateau[i][j], self.plateau[i][j - 1] = self.plateau[i][j - 1], self.plateau[i][j]
-            print("la case s'est déplacé à gauche")
         else:
             return False
         return True

@@ -1,5 +1,5 @@
 from likeprocessing.processing import *
-from pendu import *
+import random
 
 ihm = IhmScreen()
 
@@ -22,7 +22,7 @@ class Pendu(Dialog):
         self.lettres_utilisees = []
         self.perdu = False
         self.gagne = False
-        print(self.mot_secret)
+
 
         # self.paint : objet de dessin de la fenêtre du jeu
         # les commandes de dessin likeprocessing seront placées dans la méthode self.draw_paint

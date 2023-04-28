@@ -1,6 +1,5 @@
 from likeprocessing.processing import *
 
-
 class Puissance4(Dialog):
 
     textAlign("center","center")

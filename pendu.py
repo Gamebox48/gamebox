@@ -11,7 +11,6 @@ class Pendu:
         self.lettres_utilisees = []
 
     def jouer(self):
-        print("Bienvenue au jeu du pendu!")
         while self.vies > 0:
             affichage = ""
             for lettre in self.mot:
@@ -21,7 +20,6 @@ class Pendu:
                     affichage += "_"
 
             if affichage == self.mot:
-                print(f"Félicitations, vous avez trouvé le mot '{self.mot}'!")
                 break
 
             print(f"Mot à deviner: {affichage}")

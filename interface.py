@@ -7,7 +7,7 @@ from sudoku_in_dialog import Sudoku
 from pendu_in_dialog import Pendu
 from puissance_4_dialog import Puissance4
 from time import sleep
-# from sudoku.sudoku import Sudoku
+
 
 jeux = ['Morpion', 'Puissance 4', 'Snake', 'Casse-tête', 'Pendu', 'Memory', 'Sudoku']
 img = [loadImage('img/Morpion.jpg'), loadImage('img/Puissance4.jpg'), loadImage('img/Snake.jpg'),

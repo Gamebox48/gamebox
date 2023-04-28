@@ -157,7 +157,6 @@ class Sudoku(Dialog):
         elif self.fini != 5:
             self.unvisibleb(['bouton_pause', 'bouton_verifie', 'bouton_pause'])
             self.fini = 4
-            print("gagné")
             return True
 
 # renvoie si la liste est finie
