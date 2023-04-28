@@ -186,7 +186,7 @@ def draw():
     for i in range(len(jeux)):
         textFont('Comic sans ms', 35)
         text(jeux[i], x, i * (h + 10) + 60, l, h, allign_h="center", allign_v="center", fill="orange", padx=5,
-             fill_mouse_on="red", command=click, name=i, command_mouse_over=mouse_over)
+             fill_mouse_on="red", command=click, name=i, command_mouse_over=mouse_over,stroke="red",stroke_weight=4)
 
     # affichage image jeux
     if not jeu_en_cours:
