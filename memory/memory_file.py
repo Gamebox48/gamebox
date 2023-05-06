@@ -33,7 +33,7 @@ class Memory(Dialog):
         last_dir = path.split("/")[-1]
         if last_dir !="memory":
             path+="/memory"
-        for i in range(21):
+        for i in range(44):
             img = loadImage(f"{path}/memory/{i}.png")
             liste_image.append(resize_image(img, taille))
         self.images = liste_image
@@ -59,10 +59,18 @@ class Memory(Dialog):
 
     def init_plateau(self, lignes, colonnes) -> list[list[int]]:
         """créer un plateau de jeu de 5x8 dont les cartes sont mélangées."""
-        maxi = lignes * colonnes + 2
-        p = [max(i // 2, i % 2) for i in range(2, maxi)]
+        maxi = lignes * colonnes//2
+        p = [i for i in range(1, 44)]
         shuffle(p)
-        p = [[p[i * colonnes + j] for j in range(colonnes)] for i in range(lignes)]
+        p = p[:maxi]
+        paires = []
+        for i in range(maxi):
+            paires.append(p[i])
+            paires.append(p[i])
+        shuffle(paires)
+        # p = [max(i // 2, i % 2) for i in range(2, maxi)]
+
+        p = [[paires[i * colonnes + j] for j in range(colonnes)] for i in range(lignes)]
         self.plateau = p
         return p
 

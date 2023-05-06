@@ -267,9 +267,10 @@ class Sudoku(Dialog):
 # dessine l'interface de jeu
     def draw_paint(self):
         if self.fini != 0:
+            # mémorisation de l'épaisseur du trait par défaut
+            sw = strokeWeight(1)
             for i in range(9):
                 for j in range(9):
-                    strokeWeight(1)
                     if self.plateau[j][i] != 0:
                         if self.plateau_depart[j][i] == 0:
                             if self.fini == 3:
@@ -298,6 +299,8 @@ class Sudoku(Dialog):
                 text(
                     "Appuyez sur une touche de chiffre (ou sur\nretour pour effacer) de votre clavier et cliquez\navec votre souris sur une case en même temps",
                     0, 495, 450, 75, font_color="black", no_stroke=True, font_size=15)
+            # restauration de l'épaisseur du trait par défaut
+            strokeWeight(sw)
         else:
             text('Choisissez la difficulté.', 0, 0, 450, 450)
 

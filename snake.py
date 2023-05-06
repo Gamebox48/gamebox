@@ -24,7 +24,7 @@ class Snake:
     @classmethod
     def init_snake(cls):
         cls.nourriture = cls.init_nourriture(20)
-        cls.serpent = [(cls.head_x - 10 * i, cls.head_y) for i in range(20)]
+        cls.serpent = [(cls.head_x - 10 * i, cls.head_y) for i in range(1)]
         cls.perdu = False
 
     @classmethod
